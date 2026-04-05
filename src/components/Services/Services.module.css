@@ -1,0 +1,259 @@
+/* ===== SECTION ===== */
+.section {
+  width: 100%;
+  background: #F1F2F3;
+  padding: 0 24px 48px;
+}
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.island {
+  background: #1C1C1E;
+  border-radius: 20px;
+  padding: 80px 64px;
+}
+.header { margin-bottom: 56px; }
+.subtitle {
+  font-size: clamp(24px, 2.8vw, 40px);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== GRID ===== */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: #2C2C2E;
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 24px;
+  border: 1px solid #2f2f33;
+  overflow: hidden;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  border-color: rgba(34, 197, 94, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(34, 197, 94, 0.18),
+    0 14px 34px rgba(34, 197, 94, 0.18);
+}
+
+/* ===== CONTENT ===== */
+.cardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.3;
+}
+.arrow {
+  color: #8A8A8E;
+  flex-shrink: 0;
+  margin-left: 12px;
+  margin-top: 2px;
+}
+.description {
+  font-size: 14px;
+  color: #8A8A8E;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+  flex: 1;
+}
+
+/* ===== TAGS ===== */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tag {
+  font-size: 12px;
+  color: #8A8A8E;
+  border: 1px solid #3A3A3E;
+  border-radius: 20px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+/* ===== SCENE WRAP ===== */
+.sceneWrap {
+  position: relative;
+  width: 200px;
+  height: 140px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background:
+    radial-gradient(140% 110% at 100% 0%, rgba(34, 197, 94, 0.14), rgba(34, 197, 94, 0) 42%),
+    radial-gradient(110% 90% at 0% 100%, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 50%),
+    linear-gradient(145deg, #17181b 0%, #111113 45%, #0c0c0f 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  align-self: center;
+}
+.scene {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.sceneWrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 38%),
+    radial-gradient(60% 45% at 50% 100%, rgba(34, 197, 94, 0.11), rgba(34, 197, 94, 0) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sceneWrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -14px 28px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ============================================================
+   БАЗОВЫЕ СОСТОЯНИЯ
+============================================================ */
+.drawCard   { stroke-dashoffset: 0; }
+.drawInner  { stroke-dashoffset: 0; }
+.drawLine1  { stroke-dashoffset: 0; }
+.drawLine2  { stroke-dashoffset: 0; }
+.drawLine3  { stroke-dashoffset: 0; }
+.drawArrows { opacity: 1; }
+
+.noiseGrid { opacity: 0.15; }
+.assembleShape {
+  opacity: 1;
+  transform: scale(1);
+  transform-origin: 100px 70px;
+}
+.scatterDots { opacity: 0.3; }
+.dotA { opacity: 0.35; }
+.dotB { opacity: 0.45; }
+.dotC { opacity: 0.55; }
+.dotD { opacity: 0.65; }
+
+.lightBeam   { opacity: 1; }
+.shadow      { opacity: 1; }
+.lightSource { opacity: 1; }
+.cylinder    { transform-origin: 100px 82px; }
+
+.ring1, .ring2, .ring3 { stroke-dashoffset: 0; }
+.equalizer  { opacity: 1; transform: scaleY(1); transform-origin: bottom; }
+.corePulse  { opacity: 0.5; }
+.coreDot    { transform-origin: 100px 70px; opacity: 1; }
+.ringStatic { opacity: 0; }
+.axes3d     { opacity: 1; }
+
+/* ===== Infinite Reveal/Typing (No Movement) ===== */
+.designCard { animation: fadeLoop 6s ease-in-out infinite; }
+.designScreen { animation: glowLoop 4.5s ease-in-out infinite; }
+.designKpi1 { animation: revealLoop 4s ease-in-out infinite; }
+.designKpi2 { animation: revealLoop 4s ease-in-out infinite 0.55s; }
+.designKpi3 { animation: revealLoop 4s ease-in-out infinite 1.1s; }
+.designFlow { animation: revealLoop 2.8s ease-in-out infinite; }
+
+.aiArrow, .aiArrowHead, .cameraArrow, .cameraArrowHead, .animArrow, .animArrowHead {
+  animation: revealLoop 2.6s ease-in-out infinite;
+}
+.aiTile1 { animation: revealLoop 3.2s ease-in-out infinite; }
+.aiTile2 { animation: revealLoop 3.2s ease-in-out infinite 0.35s; }
+.aiTile3 { animation: revealLoop 3.2s ease-in-out infinite 0.7s; }
+
+.cameraLensOuter { animation: glowLoop 3.4s ease-in-out infinite; }
+.cameraLensMid { animation: revealLoop 2.9s ease-in-out infinite; }
+.cameraLensCore { animation: revealLoop 1.9s ease-in-out infinite; }
+.cameraTag { animation: revealLoop 3s ease-in-out infinite; }
+
+.animBefore { animation: fadeLoop 4.2s ease-in-out infinite; }
+.animAfter { animation: revealLoop 4.2s ease-in-out infinite; }
+.animFrame1 { animation: revealLoop 2.6s ease-in-out infinite; }
+.animFrame2 { animation: revealLoop 2.6s ease-in-out infinite 0.2s; }
+.animFrame3 { animation: revealLoop 2.6s ease-in-out infinite 0.4s; }
+.animFrame4 { animation: revealLoop 2.6s ease-in-out infinite 0.6s; }
+.animFrame5 { animation: revealLoop 2.6s ease-in-out infinite 0.8s; }
+.animPlay { animation: glowLoop 1.8s ease-in-out infinite; }
+
+.designText1, .designText2, .designText3,
+.aiText1, .aiText2, .aiText3, .aiText4, .aiText5, .aiText6,
+.cameraText1, .cameraText2,
+.animText1, .animText2 {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: typeLoop 5.6s steps(20, end) infinite;
+}
+
+.designText2, .aiText2, .cameraText2, .animText2 { animation-delay: 0.35s; }
+.designText3, .aiText3, .aiText5 { animation-delay: 0.7s; }
+.aiText4, .aiText6, .cameraText1, .animText1 { animation-delay: 1.05s; }
+
+@keyframes fadeLoop {
+  0%, 100% { opacity: 0.55; }
+  30%, 70% { opacity: 1; }
+}
+
+@keyframes revealLoop {
+  0%, 100% { opacity: 0.35; }
+  45%, 70% { opacity: 1; }
+}
+
+@keyframes glowLoop {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes typeLoop {
+  0%, 10% {
+    opacity: 0.15;
+    clip-path: inset(0 100% 0 0);
+  }
+  25%, 70% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  85%, 100% {
+    opacity: 0.15;
+    clip-path: inset(0 100% 0 0);
+  }
+}
