@@ -1,16 +1,52 @@
-# React + Vite
+# Land
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Лендинг-портфолио для услуг по визуалу маркетплейсов (Ozon, Wildberries, Яндекс Маркет) на React + Vite.
 
-Currently, two official plugins are available:
+## Что сейчас в ветке `main`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Одностраничный сайт с секциями: `Header`, `Hero`, `Services`, `About`
+- Адаптивная шапка с бургер-меню и состоянием при скролле
+- Hero-блок с фоновым видео и typewriter-эффектом
+- Блок услуг с кастомными SVG-сценами и карточками
+- Блок About с анимациями на `gsap` + `ScrollTrigger`
+- Локальные ассеты: иконки инструментов, фото и видео в `public/`
+- Крупный файл `public/video/hero-video2.mp4` удален из репозитория
 
-## React Compiler
+## Технологии
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- Vite
+- CSS Modules
+- GSAP (`gsap`, `ScrollTrigger`)
+- ESLint
 
-## Expanding the ESLint configuration
+## Структура проекта
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+src/
+  components/
+    Header/
+    Hero/
+    Services/
+    About/
+  fonts/
+  App.jsx
+  main.jsx
+public/
+  icons/
+  video/
+```
+
+## Запуск локально
+
+```bash
+npm install
+npm run dev
+```
+
+## Сборка
+
+```bash
+npm run build
+npm run preview
+```
