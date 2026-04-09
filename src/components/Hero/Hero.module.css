@@ -225,33 +225,108 @@
 }
 
 @media (max-width: 768px) {
+  .heroWrapper {
+    padding: 12px;
+  }
+
+  .video {
+    object-position: 15% center;
+  }
+
+  .hero {
+    aspect-ratio: auto;
+    min-height: 80vh;
+    border-radius: 16px;
+  }
+
   .glass {
+    position: absolute;
     left: 3%;
     right: 3%;
+    bottom: 3%;
+    top: auto;
     width: auto;
-    padding: 4% 4.2%;
+    padding: 24px 20px;
+    border-radius: 16px;
+    gap: 12px;
+  }
+
+  .meta {
+    font-size: 9px;
+  }
+
+  .name {
+    font-size: clamp(28px, 7vw, 48px);
+  }
+
+  .typewriterWrap {
+    font-size: clamp(13px, 3.5vw, 18px);
+    min-height: 20px;
+  }
+
+  .tagline {
+    font-size: clamp(18px, 4.5vw, 28px);
+  }
+
+  .bullets li {
+    font-size: clamp(12px, 3.2vw, 16px);
+    gap: 8px;
+  }
+
+  .bullets {
+    gap: 8px;
   }
 
   .buttons {
     flex-direction: column;
+    gap: 10px;
   }
 
   .btn {
     width: 100%;
+    font-size: 14px;
+    padding: 12px 20px;
   }
 }
 
 @media (max-width: 480px) {
+  .heroWrapper {
+    padding: 8px;
+  }
+
+  .hero {
+    min-height: 85vh;
+    border-radius: 14px;
+  }
+
   .glass {
-    padding: 14px;
+    left: 4%;
+    right: 4%;
+    bottom: 4%;
+    padding: 18px 14px;
     gap: 10px;
+    border-radius: 14px;
   }
 
-  .bullets {
-    gap: 10px;
+  .name {
+    font-size: clamp(24px, 7vw, 36px);
   }
 
-  .buttons {
-    gap: 10px;
+  .tagline {
+    font-size: clamp(16px, 4.5vw, 22px);
+  }
+
+  .bullets li {
+    font-size: 12px;
+  }
+
+  .dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 10px 16px;
   }
 }

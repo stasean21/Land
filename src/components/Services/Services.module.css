@@ -257,3 +257,94 @@
     clip-path: inset(0 100% 0 0);
   }
 }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .island {
+    padding: 56px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 0 12px 32px;
+  }
+
+  .island {
+    padding: 40px 24px;
+    border-radius: 16px;
+  }
+
+  .header {
+    margin-bottom: 32px;
+  }
+
+  .subtitle {
+    white-space: normal;
+    font-size: clamp(20px, 5vw, 32px);
+  }
+
+  .card {
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .sceneWrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 200 / 140;
+    align-self: stretch;
+  }
+
+  .grid {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 0 8px 24px;
+  }
+
+  .island {
+    padding: 28px 16px;
+    border-radius: 14px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+
+  .subtitle {
+    font-size: clamp(18px, 5vw, 24px);
+  }
+
+  .card {
+    padding: 16px;
+    gap: 12px;
+    border-radius: 12px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+
+  .sceneWrap {
+    border-radius: 12px;
+  }
+}

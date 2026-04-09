@@ -1,0 +1,480 @@
+/* ===== SECTION ===== */
+.section {
+  width: 100%;
+  background: #F1F2F3;
+  padding: 0 24px 48px;
+  box-sizing: border-box;
+}
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.island {
+  background: #1C1C1E;
+  border-radius: 28px;
+  padding: 76px 64px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* ===== HEADER (main) ===== */
+.sectionHeader {
+  margin-bottom: 0;
+}
+.sectionTitle {
+  font-size: 56px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+/* ===== BLOCK (one category) ===== */
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Block header */
+.blockHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.blockNumber {
+  font-size: 14px;
+  font-weight: 600;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 10px;
+  padding: 6px 14px;
+  flex-shrink: 0;
+}
+.blockTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+
+/* Block description (used instead of number+title in Design block) */
+.blockDescription {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+/* Divider */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+
+/* ===== DESIGN BLOCK: GALLERY ===== */
+.designGrid {
+  display: grid;
+  grid-template-columns: calc((200% - 16px) / 3) calc((100% - 32px) / 3);
+  grid-auto-rows: auto;
+  gap: 16px;
+}
+
+.designCard {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #2C2C2E;
+  border: 1px solid rgba(255,255,255,0.06);
+  aspect-ratio: 3 / 4;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
+}
+
+.designCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(34, 197, 94, 0.35);
+  box-shadow:
+    0 18px 44px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(34, 197, 94, 0.15);
+}
+
+/* First card spans both rows on the left, stretches to match */
+.designCardMain {
+  grid-row: 1 / 3;
+  grid-column: 1;
+}
+
+.designCardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.designCard:hover .designCardImage {
+  transform: scale(1.04);
+}
+
+/* Overlay */
+.designOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+}
+
+.designCard:hover .designOverlay {
+  opacity: 1;
+}
+
+.overlayContent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.overlayTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.overlayBadge {
+  font-size: 11px;
+  font-weight: 500;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 20px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+/* ===== CTA BUTTON ===== */
+.ctaWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+.ctaButton {
+  font-family: 'Gilroy', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 14px;
+  padding: 16px 44px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.ctaButton:hover {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.35);
+  transform: translateY(-2px);
+}
+
+/* ===== PLACEHOLDER BLOCKS (2, 3, 4) ===== */
+.placeholderGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.placeholderCard {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #2C2C2E;
+  border: 1px solid rgba(255,255,255,0.06);
+  aspect-ratio: 3 / 4;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
+  cursor: pointer;
+}
+
+.placeholderCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(34, 197, 94, 0.35);
+  box-shadow:
+    0 18px 44px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(34, 197, 94, 0.15);
+}
+
+.placeholderImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.placeholderCard:hover .placeholderImage {
+  transform: scale(1.04);
+}
+
+.placeholderOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+}
+
+.placeholderCard:hover .placeholderOverlay {
+  opacity: 1;
+}
+
+/* ===== LIGHTBOX ===== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: fadeIn 0.3s ease;
+  cursor: zoom-out;
+}
+
+.lightboxImage {
+  max-width: 90vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  animation: scaleIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #FFFFFF;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+.lightboxClose:hover {
+  background: rgba(255,255,255,0.2);
+  transform: scale(1.1);
+}
+
+.lightboxNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #FFFFFF;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+.lightboxNav:hover {
+  background: rgba(255,255,255,0.18);
+  transform: translateY(-50%) scale(1.1);
+}
+.lightboxPrev { left: 24px; }
+.lightboxNext { right: 24px; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .sectionTitle {
+    font-size: clamp(32px, 5vw, 48px);
+  }
+
+  .island {
+    padding: 56px 40px;
+    gap: 60px;
+  }
+
+  .blockTitle {
+    font-size: 26px;
+  }
+
+  .placeholderGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 0 12px 32px;
+  }
+
+  .island {
+    padding: 40px 24px;
+    border-radius: 20px;
+    gap: 48px;
+  }
+
+  .sectionTitle {
+    font-size: clamp(26px, 6vw, 36px);
+  }
+
+  .blockTitle {
+    font-size: 22px;
+  }
+
+  .blockNumber {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+  .designGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    gap: 12px;
+  }
+
+  .designCardMain {
+    grid-row: auto;
+  }
+
+  .placeholderGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .designOverlay,
+  .placeholderOverlay {
+    padding: 16px;
+  }
+
+  .overlayTitle {
+    font-size: 13px;
+  }
+
+  .lightboxPrev { left: 12px; }
+  .lightboxNext { right: 12px; }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 0 8px 24px;
+  }
+
+  .island {
+    padding: 28px 16px;
+    border-radius: 16px;
+    gap: 36px;
+  }
+
+  .sectionTitle {
+    font-size: clamp(22px, 6vw, 28px);
+  }
+
+  .blockTitle {
+    font-size: 20px;
+  }
+
+  .blockHeader {
+    gap: 10px;
+  }
+
+  .designGrid {
+    gap: 8px;
+    height: auto;
+  }
+
+  .placeholderGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .designCard,
+  .placeholderCard {
+    border-radius: 12px;
+  }
+
+  .designOverlay,
+  .placeholderOverlay {
+    padding: 12px;
+  }
+
+  .overlayTitle {
+    font-size: 12px;
+  }
+
+  .overlayBadge {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  .lightboxImage {
+    max-width: 95vw;
+    max-height: 80vh;
+    border-radius: 12px;
+  }
+
+  .lightboxNav {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  .lightboxPrev { left: 8px; }
+  .lightboxNext { right: 8px; }
+}
