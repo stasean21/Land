@@ -59,3 +59,18 @@ npm run dev
 npm run build
 npm run preview
 ```
+
+## Хранение файлов в Yandex Object Storage
+
+1. Создайте бакет в Yandex Cloud и загрузите ассеты с той же структурой путей:
+`/works/...`, `/icons/...`, `/video/...`, `/photo.jpg`.
+2. Сделайте доступ к файлам публичным (или через CDN с публичным read).
+3. Создайте `.env.local` в корне проекта:
+
+```bash
+VITE_ASSET_BASE_URL=https://storage.yandexcloud.net/your-bucket-name
+```
+
+4. Перезапустите dev-сервер (`npm run dev`).
+
+Если `VITE_ASSET_BASE_URL` не задан, проект продолжит использовать локальные файлы из `public/`.

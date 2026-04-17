@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './About.module.css'
+import { assetUrl } from '../../utils/assetUrl'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -43,15 +44,15 @@ function Counter({ to, prefix = '', suffix = '', label }) {
 }
 
 const KEYS_TOP = [
-  { id: 'ps',      label: 'Photoshop',   color: '#31A8FF', icon: '/icons/ps.png'          },
-  { id: 'nb',      label: 'Nano Banana', color: '#22c55e', icon: '/icons/nano-banana.png' },
-  { id: 'gemini',  label: 'Gemini',      color: '#8B5CF6', icon: '/icons/gemini.png'      },
-  { id: 'chatgpt', label: 'ChatGPT',     color: '#10A37F', icon: '/icons/chatgpt.png'     },
+  { id: 'ps',      label: 'Photoshop',   color: '#31A8FF', icon: assetUrl('/icons/ps.png')          },
+  { id: 'nb',      label: 'Nano Banana', color: '#22c55e', icon: assetUrl('/icons/nano-banana.png') },
+  { id: 'gemini',  label: 'Gemini',      color: '#8B5CF6', icon: assetUrl('/icons/gemini.png')      },
+  { id: 'chatgpt', label: 'ChatGPT',     color: '#10A37F', icon: assetUrl('/icons/chatgpt.png')     },
 ]
 const KEYS_BOT = [
-  { id: 'davinci',  label: 'DaVinci Resolve', color: '#E8473F', icon: '/icons/davinci.png'   },
-  { id: 'claude',   label: 'Claude AI',       color: '#D97706', icon: '/icons/claude.png'    },
-  { id: 'openclaw', label: 'Openclaw',        color: '#6366F1', icon: '/icons/openclaw.png'  },
+  { id: 'davinci',  label: 'DaVinci Resolve', color: '#E8473F', icon: assetUrl('/icons/davinci.png')   },
+  { id: 'claude',   label: 'Claude AI',       color: '#D97706', icon: assetUrl('/icons/claude.png')    },
+  { id: 'openclaw', label: 'Openclaw',        color: '#6366F1', icon: assetUrl('/icons/openclaw.png')  },
 ]
 
 const GLOW_BY_INDEX = {
@@ -232,7 +233,7 @@ export default function About() {
 
             <div className={[styles.card, styles.cardStory].join(' ')}>
               <div className={styles.photoWrap}>
-                <img src="/photo.jpg" alt="Станислав Мунтяну" className={styles.photo} />
+                <img src={assetUrl('/photo.jpg')} alt="Станислав Мунтяну" className={styles.photo} />
                 <div className={styles.photoOverlay} />
               </div>
               <div className={styles.storyText}>

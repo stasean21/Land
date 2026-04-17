@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { createPortal } from 'react-dom'
 import InfiniteGallery from './InfiniteGallery'
 import styles from './Works.module.css'
+import { assetUrl } from '../../utils/assetUrl'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -16,10 +17,10 @@ const BLOCKS = [
     num: '01',
     title: 'Дизайн и инфографика',
     items: [
-      { src: '/works/design/1.png', title: 'Крем NATURELLE',      badge: 'Wildberries' },
-      { src: '/works/design/2.png', title: 'Наушники Aurora ANC',  badge: 'Ozon' },
-      { src: '/works/design/3.png', title: 'Витамины Daily Multi', badge: 'Ozon' },
-      { src: '/works/design/4.png', title: 'Кухонные приборы',     badge: 'Ozon' },
+      { src: assetUrl('/works/design/1.png'), title: 'Крем NATURELLE',      badge: 'Wildberries' },
+      { src: assetUrl('/works/design/2.png'), title: 'Наушники Aurora ANC',  badge: 'Ozon' },
+      { src: assetUrl('/works/design/3.png'), title: 'Витамины Daily Multi', badge: 'Ozon' },
+      { src: assetUrl('/works/design/4.png'), title: 'Кухонные приборы',     badge: 'Ozon' },
     ],
   },
   {
@@ -27,10 +28,10 @@ const BLOCKS = [
     num: '02',
     title: 'Предметная съёмка + AI',
     items: [
-      { src: '/works/photo/1.png', title: 'Парфюм Aura Blossom',   badge: 'Макро' },
-      { src: '/works/photo/2.png', title: 'Premium Headphones',     badge: 'AI-фон' },
-      { src: '/works/photo/3.png', title: 'Luxury Watch',           badge: 'Композинг' },
-      { src: '/works/photo/4.png', title: 'Organic Cosmetics Line', badge: 'AI-сцена' },
+      { src: assetUrl('/works/photo/1.png'), title: 'Парфюм Aura Blossom',   badge: 'Макро' },
+      { src: assetUrl('/works/photo/2.png'), title: 'Premium Headphones',     badge: 'AI-фон' },
+      { src: assetUrl('/works/photo/3.png'), title: 'Luxury Watch',           badge: 'Композинг' },
+      { src: assetUrl('/works/photo/4.png'), title: 'Organic Cosmetics Line', badge: 'AI-сцена' },
     ],
   },
   {
@@ -38,10 +39,10 @@ const BLOCKS = [
     num: '03',
     title: 'AI-фотосессии',
     items: [
-      { src: '/works/ai-photo/1.png', title: 'Leather Bag Interior', badge: 'Nano Banana' },
-      { src: '/works/ai-photo/2.png', title: 'Dinnerware Set',       badge: 'AI-сцена' },
-      { src: '/works/ai-photo/3.png', title: 'Trail Sneakers',       badge: 'Lifestyle' },
-      { src: '/works/ai-photo/4.png', title: 'Coffee Machine Loft',  badge: 'Интерьер' },
+      { src: assetUrl('/works/ai-photo/1.png'), title: 'Leather Bag Interior', badge: 'Nano Banana' },
+      { src: assetUrl('/works/ai-photo/2.png'), title: 'Dinnerware Set',       badge: 'AI-сцена' },
+      { src: assetUrl('/works/ai-photo/3.png'), title: 'Trail Sneakers',       badge: 'Lifestyle' },
+      { src: assetUrl('/works/ai-photo/4.png'), title: 'Coffee Machine Loft',  badge: 'Интерьер' },
     ],
   },
   {
@@ -49,10 +50,10 @@ const BLOCKS = [
     num: '04',
     title: 'Оживление фото',
     items: [
-      { src: '/works/animation/1.png', title: 'Serum До / После', badge: 'Видеообложка' },
-      { src: '/works/animation/2.png', title: 'Headphones Promo',  badge: 'Анимация' },
-      { src: '/works/animation/3.png', title: 'Aurum Watch',       badge: 'Motion' },
-      { src: '/works/animation/4.png', title: 'Apex Bio Greens',   badge: 'Видеообложка' },
+      { src: assetUrl('/works/animation/1.png'), title: 'Serum До / После', badge: 'Видеообложка' },
+      { src: assetUrl('/works/animation/2.png'), title: 'Headphones Promo',  badge: 'Анимация' },
+      { src: assetUrl('/works/animation/3.png'), title: 'Aurum Watch',       badge: 'Motion' },
+      { src: assetUrl('/works/animation/4.png'), title: 'Apex Bio Greens',   badge: 'Видеообложка' },
     ],
   },
 ]
@@ -289,7 +290,7 @@ export default function Works() {
       )}
 
       {showGallery && createPortal(
-        <InfiniteGallery onClose={() => setShowGallery(false)} />,
+        <InfiniteGallery onClose={() => setShowGallery(false)} items={allItems} />,
         document.body
       )}
     </section>

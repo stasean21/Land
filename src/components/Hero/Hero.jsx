@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import styles from './Hero.module.css'
+import { assetUrl } from '../../utils/assetUrl'
 
 const PHRASES = [
   'Инфографика для маркетплейсов',
@@ -63,7 +64,7 @@ export default function Hero() {
           playsInline
           preload="auto"
         >
-          <source src="/video/hero-video.mp4" type="video/mp4" />
+          <source src={assetUrl('/video/hero-video.mp4')} type="video/mp4" />
         </video>
 
         {/* оверлей */}
