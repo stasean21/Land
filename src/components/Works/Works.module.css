@@ -13,24 +13,11 @@
 .island {
   background: #1C1C1E;
   border-radius: 28px;
-  padding: 76px 64px;
+  padding: 40px 56px 56px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 80px;
-}
-
-/* ===== HEADER (main) ===== */
-.sectionHeader {
-  margin-bottom: 0;
-}
-.sectionTitle {
-  font-size: 56px;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin: 0;
-  letter-spacing: -1px;
-  line-height: 1.1;
+  gap: 64px;
 }
 
 /* ===== BLOCK (one category) ===== */
@@ -67,12 +54,12 @@
 
 /* Block description (used instead of number+title in Design block) */
 .blockDescription {
-  font-size: clamp(24px, 3vw, 36px);
+  font-size: clamp(24px, 2.8vw, 40px);
   font-weight: 700;
   color: #FFFFFF;
   margin: 0;
   letter-spacing: -0.5px;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 /* Divider */
@@ -82,63 +69,73 @@
   background: rgba(255,255,255,0.06);
 }
 
-/* ===== DESIGN BLOCK: GALLERY ===== */
-.designGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-auto-rows: auto;
-  gap: 16px;
-  width: 100%;
+/* ===== BLOCK (common) ===== */
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  overflow: hidden; /* Защита от вылетающих карточек */
 }
 
-.designCard {
+/* ===== CAROUSEL SYSTEM ===== */
+.carouselViewport {
+  width: 100%;
+  overflow: hidden;
   position: relative;
+}
+
+.carouselTrack {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  will-change: transform;
+}
+
+.designCard, .placeholderCard {
+  position: relative;
+  flex: 0 0 calc(33.333% - 11px); /* 3 в ряд с учетом gap 16px */
   border-radius: 18px;
   overflow: hidden;
   cursor: pointer;
   background: #2C2C2E;
   border: 1px solid rgba(255,255,255,0.06);
   aspect-ratio: 3 / 4;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.35s ease,
-              box-shadow 0.35s ease;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
-.designCard:hover {
-  transform: translateY(-5px);
+@media (max-width: 1024px) {
+  .designCard, .placeholderCard {
+    flex: 0 0 calc(50% - 8px); /* 2 в ряд */
+  }
+}
+
+@media (max-width: 600px) {
+  .designCard, .placeholderCard {
+    flex: 0 0 100%; /* 1 в ряд */
+  }
+}
+
+.designCard:hover, .placeholderCard:hover {
   border-color: rgba(34, 197, 94, 0.35);
-  box-shadow:
-    0 18px 44px rgba(0,0,0,0.4),
-    0 0 0 1px rgba(34, 197, 94, 0.15);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
 }
 
-/* First card spans both rows on the left, stretches to match */
-.designCardMain {
-  grid-row: auto;
-  grid-column: auto;
-}
-
-.designCardImage {
+.designCardImage, .placeholderImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.55s ease;
 }
 
 .designCard:hover .designCardImage {
   transform: scale(1.04);
 }
 
-/* Overlay */
-.designOverlay {
+.designOverlay, .placeholderOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 50%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
+  background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
   opacity: 0;
   transition: opacity 0.35s ease;
   display: flex;
@@ -146,7 +143,8 @@
   padding: 24px;
 }
 
-.designCard:hover .designOverlay {
+.designCard:hover .designOverlay,
+.placeholderCard:hover .placeholderOverlay {
   opacity: 1;
 }
 
@@ -265,69 +263,152 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  animation: fadeIn 0.3s ease;
-  cursor: zoom-out;
+  background: rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+}
+
+.lightboxBackdrop {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 1;
+}
+
+.lightboxHeader {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+}
+
+.lightboxCounter {
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.lightboxCounter strong {
+  color: #22c55e;
+  margin: 0 4px;
+}
+
+.lightboxMain {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 90%;
 }
 
 .lightboxImage {
-  max-width: 90vw;
-  max-height: 88vh;
+  display: block;
+  max-width: 100%;
+  max-height: 75vh;
   object-fit: contain;
-  border-radius: 16px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
-  animation: scaleIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+  pointer-events: auto;
+}
+
+.lightboxInfo {
+  background: rgba(44, 44, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 24px;
+  border-radius: 40px;
+  color: #FFFFFF;
+}
+
+.infoContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.infoTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.infoBadge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+  padding: 2px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .lightboxClose {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
   color: #FFFFFF;
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease, transform 0.2s ease;
-  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
 }
 .lightboxClose:hover {
-  background: rgba(255,255,255,0.2);
-  transform: scale(1.1);
+  background: #ef4444;
+  border-color: #ef4444;
 }
 
 .lightboxNav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.1);
   color: #FFFFFF;
-  font-size: 22px;
+  font-size: 24px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease, transform 0.2s ease;
-  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+  z-index: 30;
 }
 .lightboxNav:hover {
-  background: rgba(255,255,255,0.18);
-  transform: translateY(-50%) scale(1.1);
+  background: rgba(34, 197, 94, 0.2);
+  border-color: #22c55e;
+  color: #22c55e;
 }
-.lightboxPrev { left: 24px; }
-.lightboxNext { right: 24px; }
+
+.lightboxPrev { left: 32px; }
+.lightboxNext { right: 32px; }
+
+@media (max-width: 768px) {
+  .lightboxNav {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+  .lightboxPrev { left: 12px; }
+  .lightboxNext { right: 12px; }
+  .lightboxInfo {
+    width: 90%;
+    padding: 10px 16px;
+  }
+  .infoTitle { font-size: 14px; }
+}
 
 /* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
@@ -342,13 +423,9 @@
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
-  .sectionTitle {
-    font-size: clamp(32px, 5vw, 48px);
-  }
-
   .island {
-    padding: 56px 40px;
-    gap: 60px;
+    padding: 44px 32px 42px;
+    gap: 48px;
   }
 
   .blockTitle {
@@ -368,17 +445,17 @@
   }
 
   .island {
-    padding: 40px 24px;
+    padding: 32px 20px 30px;
     border-radius: 20px;
-    gap: 48px;
-  }
-
-  .sectionTitle {
-    font-size: clamp(26px, 6vw, 36px);
+    gap: 40px;
   }
 
   .blockTitle {
     font-size: 22px;
+  }
+
+  .blockDescription {
+    font-size: clamp(20px, 5vw, 32px);
   }
 
   .blockNumber {
@@ -422,17 +499,17 @@
   }
 
   .island {
-    padding: 28px 16px;
+    padding: 22px 14px 20px;
     border-radius: 16px;
-    gap: 36px;
-  }
-
-  .sectionTitle {
-    font-size: clamp(22px, 6vw, 28px);
+    gap: 30px;
   }
 
   .blockTitle {
     font-size: 20px;
+  }
+
+  .blockDescription {
+    font-size: clamp(18px, 5vw, 24px);
   }
 
   .blockHeader {

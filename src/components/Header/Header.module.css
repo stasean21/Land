@@ -1,23 +1,17 @@
 /* ===== WRAPPER ===== */
 .wrapper {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 20px 0;
-  z-index: 1000;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-}
-
-.fixed {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 10px 20px 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(16px);
+  z-index: 1000;
+  transition: padding 0.3s ease;
+  box-sizing: border-box;
 }
 
 /* ===== NAV ===== */
@@ -183,10 +177,6 @@
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .wrapper {
-    padding: 12px 12px 0;
-  }
-
-  .fixed {
     padding: 8px 12px 0;
   }
 
@@ -217,10 +207,6 @@
 
 @media (max-width: 480px) {
   .wrapper {
-    padding: 8px 8px 0;
-  }
-
-  .fixed {
     padding: 6px 8px 0;
   }
 

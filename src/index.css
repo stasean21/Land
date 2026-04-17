@@ -30,6 +30,34 @@
   padding: 0;
 }
 
+:root {
+  --header-offset: 50px;
+  --header-safe-space: 82px;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-offset);
+}
+
+section[id],
+div[id] {
+  scroll-margin-top: var(--header-offset);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-offset: 28px;
+    --header-safe-space: 72px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-safe-space: 64px;
+  }
+}
+
 body {
   font-family: 'Gilroy', sans-serif;
   background: #f0f0f0;

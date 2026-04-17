@@ -222,7 +222,7 @@ const SKILLS = [
 
 export default function About() {
   return (
-    <section className={styles.section}>
+    <section id="about" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.island}>
           <div className={styles.header}>

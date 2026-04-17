@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { createPortal } from 'react-dom'
@@ -17,10 +17,10 @@ const BLOCKS = [
     num: '01',
     title: 'Дизайн и инфографика',
     items: [
-      { src: assetUrl('/works/design/1.png'), title: 'Крем NATURELLE',      badge: 'Wildberries' },
-      { src: assetUrl('/works/design/2.png'), title: 'Наушники Aurora ANC',  badge: 'Ozon' },
-      { src: assetUrl('/works/design/3.png'), title: 'Витамины Daily Multi', badge: 'Ozon' },
-      { src: assetUrl('/works/design/4.png'), title: 'Кухонные приборы',     badge: 'Ozon' },
+      { id: 'd1', src: assetUrl('/1.jpg'), title: 'Крем NATURELLE',      badge: 'Wildberries' },
+      { id: 'd2', src: assetUrl('/2.jpg'), title: 'Наушники Aurora ANC',  badge: 'Ozon' },
+      { id: 'd3', src: assetUrl('/3.jpg'), title: 'Витамины Daily Multi', badge: 'Ozon' },
+      { id: 'd4', src: assetUrl('/4.jpg'), title: 'Кухонные приборы',     badge: 'Ozon' },
     ],
   },
   {
@@ -28,10 +28,10 @@ const BLOCKS = [
     num: '02',
     title: 'Предметная съёмка + AI',
     items: [
-      { src: assetUrl('/works/photo/1.png'), title: 'Парфюм Aura Blossom',   badge: 'Макро' },
-      { src: assetUrl('/works/photo/2.png'), title: 'Premium Headphones',     badge: 'AI-фон' },
-      { src: assetUrl('/works/photo/3.png'), title: 'Luxury Watch',           badge: 'Композинг' },
-      { src: assetUrl('/works/photo/4.png'), title: 'Organic Cosmetics Line', badge: 'AI-сцена' },
+      { id: 'p1', src: assetUrl('/5.jpg'), title: 'Парфюм Aura Blossom',   badge: 'Макро' },
+      { id: 'p2', src: assetUrl('/6.jpg'), title: 'Premium Headphones',     badge: 'AI-фон' },
+      { id: 'p3', src: assetUrl('/7.jpg'), title: 'Luxury Watch',           badge: 'Композинг' },
+      { id: 'p4', src: assetUrl('/1.jpg'), title: 'Organic Cosmetics Line', badge: 'AI-сцена' },
     ],
   },
   {
@@ -39,10 +39,10 @@ const BLOCKS = [
     num: '03',
     title: 'AI-фотосессии',
     items: [
-      { src: assetUrl('/works/ai-photo/1.png'), title: 'Leather Bag Interior', badge: 'Nano Banana' },
-      { src: assetUrl('/works/ai-photo/2.png'), title: 'Dinnerware Set',       badge: 'AI-сцена' },
-      { src: assetUrl('/works/ai-photo/3.png'), title: 'Trail Sneakers',       badge: 'Lifestyle' },
-      { src: assetUrl('/works/ai-photo/4.png'), title: 'Coffee Machine Loft',  badge: 'Интерьер' },
+      { id: 'a1', src: assetUrl('/2.jpg'), title: 'Leather Bag Interior', badge: 'Nano Banana' },
+      { id: 'a2', src: assetUrl('/3.jpg'), title: 'Dinnerware Set',       badge: 'AI-сцена' },
+      { id: 'a3', src: assetUrl('/4.jpg'), title: 'Trail Sneakers',       badge: 'Lifestyle' },
+      { id: 'a4', src: assetUrl('/5.jpg'), title: 'Coffee Machine Loft',  badge: 'Интерьер' },
     ],
   },
   {
@@ -50,10 +50,10 @@ const BLOCKS = [
     num: '04',
     title: 'Оживление фото',
     items: [
-      { src: assetUrl('/works/animation/1.png'), title: 'Serum До / После', badge: 'Видеообложка' },
-      { src: assetUrl('/works/animation/2.png'), title: 'Headphones Promo',  badge: 'Анимация' },
-      { src: assetUrl('/works/animation/3.png'), title: 'Aurum Watch',       badge: 'Motion' },
-      { src: assetUrl('/works/animation/4.png'), title: 'Apex Bio Greens',   badge: 'Видеообложка' },
+      { id: 'an1', src: assetUrl('/6.jpg'), title: 'Serum До / После', badge: 'Видеообложка' },
+      { id: 'an2', src: assetUrl('/7.jpg'), title: 'Headphones Promo',  badge: 'Анимация' },
+      { id: 'an3', src: assetUrl('/1.jpg'), title: 'Aurum Watch',       badge: 'Motion' },
+      { id: 'an4', src: assetUrl('/2.jpg'), title: 'Apex Bio Greens',   badge: 'Видеообложка' },
     ],
   },
 ]
@@ -62,6 +62,8 @@ const BLOCKS = [
    LIGHTBOX
    ================================================================ */
 function Lightbox({ allItems, index, onClose, onPrev, onNext }) {
+  const imgRef = useRef(null)
+
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape') onClose()
@@ -76,146 +78,159 @@ function Lightbox({ allItems, index, onClose, onPrev, onNext }) {
     }
   }, [onClose, onPrev, onNext])
 
+  // Плавное появление при смене картинки
+  useLayoutEffect(() => {
+    if (!imgRef.current) return
+    gsap.fromTo(imgRef.current, 
+      { opacity: 0, scale: 0.95 },
+      { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' }
+    )
+  }, [index])
+
   const item = allItems[index]
 
   return (
     <div className={styles.lightbox} onClick={onClose}>
-      <button className={styles.lightboxClose} onClick={onClose} aria-label="Закрыть">✕</button>
+      <div className={styles.lightboxBackdrop} />
+      
+      <div className={styles.lightboxHeader}>
+        <div className={styles.lightboxCounter}>
+          Работа <strong>{index + 1}</strong> из {allItems.length}
+        </div>
+        <button className={styles.lightboxClose} onClick={onClose}>✕</button>
+      </div>
+
       <button
         className={`${styles.lightboxNav} ${styles.lightboxPrev}`}
         onClick={(e) => { e.stopPropagation(); onPrev() }}
-        aria-label="Предыдущая"
       >‹</button>
-      <img
-        className={styles.lightboxImage}
-        src={item.src}
-        alt={item.title}
-        onClick={(e) => e.stopPropagation()}
-      />
+
+      <div className={styles.lightboxMain} onClick={(e) => e.stopPropagation()}>
+        <img
+          ref={imgRef}
+          className={styles.lightboxImage}
+          src={item.src}
+          alt={item.title}
+        />
+
+      </div>
+
       <button
         className={`${styles.lightboxNav} ${styles.lightboxNext}`}
         onClick={(e) => { e.stopPropagation(); onNext() }}
-        aria-label="Следующая"
       >›</button>
     </div>
   )
 }
 
 /* ================================================================
-   DESIGN BLOCK (#1) — fully styled
+   CAROUSEL BLOCK
    ================================================================ */
-function DesignBlock({ block, onImageClick, onOpenGallery }) {
-  const ref = useRef(null)
+function WorksBlock({ block, onImageClick, onOpenGallery, interval = 5000 }) {
+  const [items, setItems] = useState(block.items)
+  const [isPaused, setIsPaused] = useState(false)
+  const trackRef = useRef(null)
+  const timerRef = useRef(null)
 
-  useEffect(() => {
-    const cards = ref.current?.querySelectorAll('[data-card]')
-    if (!cards?.length) return
-    gsap.set(cards, { opacity: 0, y: 40 })
-    const trigger = ScrollTrigger.create({
-      trigger: ref.current,
-      start: 'top 80%',
-      once: true,
-      onEnter: () => {
-        gsap.to(cards, {
-          opacity: 1, y: 0,
-          duration: 0.6,
-          stagger: 0.12,
-          ease: 'power3.out',
+  const rotate = useCallback(() => {
+    if (!trackRef.current) return
+
+    const cards = trackRef.current.children
+    if (cards.length < 2) return
+    const cardWidth = cards[0].offsetWidth
+    const gap = 16
+    const moveDist = cardWidth + gap
+
+    gsap.to(trackRef.current, {
+      x: -moveDist,
+      duration: 0.8,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        setItems((prev) => {
+          const next = [...prev]
+          const first = next.shift()
+          next.push(first)
+          return next
         })
-      },
+      }
     })
-    return () => trigger.kill()
   }, [])
 
-  // Show first 3 items in the grid
-  const visibleItems = block.items.slice(0, 3)
-
-  return (
-    <div className={styles.block} ref={ref}>
-      {/* Description heading */}
-      <p className={styles.blockDescription}>
-        Собираю карточки в стиле сильных коммерческих слайдов
-      </p>
-
-      {/* Asymmetric grid: large left, 2 stacked right */}
-      <div className={styles.designGrid}>
-        {visibleItems.map((item, i) => (
-          <div
-            key={item.src}
-            className={`${styles.designCard} ${i === 0 ? styles.designCardMain : ''}`}
-            data-card
-            onClick={() => onImageClick(item)}
-          >
-            <img className={styles.designCardImage} src={item.src} alt={item.title} loading="lazy" />
-            <div className={styles.designOverlay}>
-              <div className={styles.overlayContent}>
-                <p className={styles.overlayTitle}>{item.title}</p>
-                <span className={styles.overlayBadge}>{item.badge}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* CTA button */}
-      <div className={styles.ctaWrap}>
-        <button className={styles.ctaButton} onClick={onOpenGallery}>Смотреть все работы</button>
-      </div>
-    </div>
-  )
-}
-
-/* ================================================================
-   PLACEHOLDER BLOCK (for #2, #3, #4 — simple grid, will be refined)
-   ================================================================ */
-function PlaceholderBlock({ block, onImageClick }) {
-  const ref = useRef(null)
+  // Бесшовный сброс позиции трека после вращения стейта
+  useLayoutEffect(() => {
+    gsap.set(trackRef.current, { x: 0 })
+  }, [items])
 
   useEffect(() => {
-    const cards = ref.current?.querySelectorAll('[data-card]')
-    if (!cards?.length) return
-    gsap.set(cards, { opacity: 0, y: 40 })
+    if (isPaused) {
+      if (timerRef.current) clearInterval(timerRef.current)
+    } else {
+      timerRef.current = setInterval(rotate, interval)
+    }
+    return () => clearInterval(timerRef.current)
+  }, [isPaused, rotate, interval])
+
+  // ScrollTrigger: entrance animation for the block
+  useEffect(() => {
+    const el = trackRef.current
+    if (!el) return
+    const cards = el.querySelectorAll('[data-card]')
+    gsap.set(cards, { opacity: 0, y: 30 })
     const trigger = ScrollTrigger.create({
-      trigger: ref.current,
-      start: 'top 80%',
+      trigger: el,
+      start: 'top 85%',
       once: true,
       onEnter: () => {
-        gsap.to(cards, {
-          opacity: 1, y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: 'power3.out',
-        })
+        gsap.to(cards, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' })
       },
     })
     return () => trigger.kill()
   }, [])
 
   return (
-    <div className={styles.block} ref={ref}>
-      <div className={styles.divider} />
+    <div 
+      id={`works-${block.id}`}
+      className={styles.block}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {block.id !== 'design' && <div className={styles.divider} />}
+      
       <div className={styles.blockHeader}>
         <span className={styles.blockNumber}>{block.num}</span>
-        <h3 className={styles.blockTitle}>{block.title}</h3>
+        {block.id === 'design' ? (
+          <p className={styles.blockDescription}>Дизайн и инфографика</p>
+        ) : (
+          <h3 className={styles.blockTitle}>{block.title}</h3>
+        )}
       </div>
-      <div className={styles.placeholderGrid}>
-        {block.items.map((item) => (
-          <div
-            key={item.src}
-            className={styles.placeholderCard}
-            data-card
-            onClick={() => onImageClick(item)}
-          >
-            <img className={styles.placeholderImage} src={item.src} alt={item.title} loading="lazy" />
-            <div className={styles.placeholderOverlay}>
-              <div className={styles.overlayContent}>
-                <p className={styles.overlayTitle}>{item.title}</p>
-                <span className={styles.overlayBadge}>{item.badge}</span>
+
+      <div className={styles.carouselViewport}>
+        <div className={styles.carouselTrack} ref={trackRef}>
+          {items.map((item) => (
+            <div
+              key={item.id}
+              className={styles.designCard}
+              data-card
+              onClick={() => onImageClick(item)}
+            >
+              <img className={styles.designCardImage} src={item.src} alt={item.title} loading="lazy" />
+              <div className={styles.designOverlay}>
+                <div className={styles.overlayContent}>
+                  <p className={styles.overlayTitle}>{item.title}</p>
+                  <span className={styles.overlayBadge}>{item.badge}</span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+
+      {block.id === 'design' && (
+        <div className={styles.ctaWrap}>
+          <button className={styles.ctaButton} onClick={onOpenGallery}>Смотреть все работы</button>
+        </div>
+      )}
     </div>
   )
 }
@@ -248,7 +263,7 @@ export default function Works() {
   }, [])
 
   const openLightbox = (item) => {
-    const idx = allItems.findIndex((i) => i.src === item.src)
+    const idx = allItems.findIndex((i) => i.id === item.id)
     setLightboxIdx(idx >= 0 ? idx : 0)
   }
   const closeLightbox = () => setLightboxIdx(null)
@@ -262,31 +277,38 @@ export default function Works() {
   }, [allItems.length])
 
   return (
-    <section className={styles.section} ref={sectionRef}>
+    <section id="works" className={styles.section} ref={sectionRef}>
       <div className={styles.container}>
         <div className={styles.island}>
-          <div className={styles.sectionHeader}>
-            <p className={styles.sectionTitle}>Примеры работ</p>
-          </div>
+          {/* 01 — Дизайн и инфографика */}
+          <WorksBlock 
+            block={BLOCKS[0]} 
+            onImageClick={openLightbox} 
+            onOpenGallery={() => setShowGallery(true)} 
+            interval={3000}
+          />
 
-          {/* 01 — Дизайн и инфографика (полноценный блок) */}
-          <DesignBlock block={BLOCKS[0]} onImageClick={openLightbox} onOpenGallery={() => setShowGallery(true)} />
-
-          {/* 02, 03, 04 — пока placeholder-сетки */}
-          {BLOCKS.slice(1).map((block) => (
-            <PlaceholderBlock key={block.id} block={block} onImageClick={openLightbox} />
+          {/* 02, 03, 04 — остальные блоки */}
+          {BLOCKS.slice(1).map((block, idx) => (
+            <WorksBlock 
+              key={block.id} 
+              block={block} 
+              onImageClick={openLightbox} 
+              interval={3000 + (idx * 500)} // Небольшой рассинхрон для живости
+            />
           ))}
         </div>
       </div>
 
-      {lightboxIdx !== null && (
+      {lightboxIdx !== null && createPortal(
         <Lightbox
           allItems={allItems}
           index={lightboxIdx}
           onClose={closeLightbox}
           onPrev={prevLightbox}
           onNext={nextLightbox}
-        />
+        />,
+        document.body
       )}
 
       {showGallery && createPortal(

@@ -110,32 +110,36 @@ const SERVICES = [
     title: 'Дизайн и инфографика',
     description: 'Создаю продающую структуру слайдов, выделяю УТП товара и закрываю боли покупателей через грамотный визуал.',
     tags: ['Ozon', 'Wildberries', 'Анализ конкурентов'],
+    href: '#works-design',
   },
   {
     id: 2, Scene: SceneAI,
     title: 'AI-фотосессии',
     description: 'Генерирую реалистичные фоны и сцены с помощью нейросетей. Помещаю ваш товар в любой интерьер без студийных съемок.',
     tags: ['Nano Banana 2', 'Prompt-инжиниринг', 'AI-сцены'],
+    href: '#works-ai-photo',
   },
   {
     id: 3, Scene: SceneCamera,
     title: 'Предметная съёмка + AI',
     description: 'Профессионально фотографирую ваш продукт (макро, нужные ракурсы) и интегрирую его в сгенерированное AI-окружение.',
     tags: ['Предметная съёмка', 'Макро', 'Композинг'],
+    href: '#works-photo',
   },
   {
     id: 4, Scene: SceneAnimate,
     title: 'Оживление фото',
     description: 'Создаю динамичные видеообложки и анимирую элементы на фото, чтобы карточка привлекала максимум внимания.',
     tags: ['Видеообложки', 'DaVinci Resolve', 'Анимация'],
+    href: '#works-animation',
   },
 ]
 
-function ServiceCard({ Scene, title, description, tags }) {
+function ServiceCard({ Scene, title, description, tags, href }) {
   const SceneComponent = Scene
 
   return (
-      <div className={styles.card}>
+    <a href={href} className={`${styles.card} ${styles.cardLink}`}>
       <div className={styles.sceneWrap}>
         <SceneComponent />
       </div>
@@ -156,13 +160,13 @@ function ServiceCard({ Scene, title, description, tags }) {
           ))}
         </div>
       </div>
-    </div>
+    </a>
   )
 }
 
 export default function Services() {
   return (
-    <section className={styles.section}>
+    <section id="services" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.island}>
           <div className={styles.header}>

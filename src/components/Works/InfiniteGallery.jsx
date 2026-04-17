@@ -10,7 +10,6 @@ export default function InfiniteGallery({ onClose, items = [] }) {
   const lbRef = useRef(null)
   const lbCardRef = useRef(null)
   const lbCounterRef = useRef(null)
-  const hudRef = useRef(null)
   const navHintRef = useRef(null)
   const minimapRef = useRef(null)
   const closeBtnRef = useRef(null)
@@ -55,10 +54,6 @@ export default function InfiniteGallery({ onClose, items = [] }) {
         card.innerHTML = `
           <div class="ig-card-inner">
             <img class="ig-card-img" src="${item.src}" alt="${item.title}" loading="lazy" />
-            <div class="ig-card-overlay">
-              <div class="ig-card-title">${item.title}</div>
-              <div class="ig-card-badge">${item.badge}</div>
-            </div>
             <div class="ig-card-num-badge">${num}</div>
           </div>`
         canvas.appendChild(card)
@@ -67,18 +62,10 @@ export default function InfiniteGallery({ onClose, items = [] }) {
     }
 
     function applyTransform() {
-      let renderX = viewX
-      let renderY = viewY
+      // Всегда применяем логику зацикливания, чтобы при драге (zoom out) галерея не тормозила
+      const renderX = ((viewX % GRID_W) + GRID_W) % GRID_W
+      const renderY = ((viewY % GRID_H) + GRID_H) % GRID_H
       
-      // Smooth infinite wrapping logic
-      if (Math.abs(currentScale - 1) < 0.001) {
-         renderX = ((viewX % GRID_W) + GRID_W) % GRID_W
-         renderY = ((viewY % GRID_H) + GRID_H) % GRID_H
-         // Sync back so it doesn't drift boundlessly
-         viewX = renderX
-         viewY = renderY
-      }
-
       const vcx = window.innerWidth / 2
       const vcy = window.innerHeight / 2
       const ox = vcx - (centerX + renderX)
@@ -88,12 +75,14 @@ export default function InfiniteGallery({ onClose, items = [] }) {
       canvas.style.transform = `translate(${centerX + renderX}px, ${centerY + renderY}px) scale(${currentScale})`
 
       const cx = Math.round(-renderX), cy = Math.round(-renderY)
-      coordsRef.current.textContent = `${cx}, ${cy}`
+      if (coordsRef.current) coordsRef.current.textContent = `${cx}, ${cy}`
       
-      const mx = (((cx % GRID_W) + GRID_W) % GRID_W) / GRID_W
-      const my = (((cy % GRID_H) + GRID_H) % GRID_H) / GRID_H
-      miniDotRef.current.style.left = (mx * 100) + '%'
-      miniDotRef.current.style.top = (my * 100) + '%'
+      if (miniDotRef.current) {
+        const mx = (((cx % GRID_W) + GRID_W) % GRID_W) / GRID_W
+        const my = (((cy % GRID_H) + GRID_H) % GRID_H) / GRID_H
+        miniDotRef.current.style.left = (mx * 100) + '%'
+        miniDotRef.current.style.top = (my * 100) + '%'
+      }
     }
     applyTransform()
 
@@ -102,10 +91,13 @@ export default function InfiniteGallery({ onClose, items = [] }) {
     let animatingLb = false
     let currentIdx = 0
     let isDragging = false, didDrag = false
+    let isZoomedOut = false
     let dsx = 0, dsy = 0, dox = 0, doy = 0
+    let zoomTimeout = null
     const SCALE_NORMAL = 1, SCALE_OUT = 0.82, ZOOM_DUR = 0.45
 
     const zoomTo = (target) => {
+      isZoomedOut = target < 1
       gsap.to({ s: currentScale }, {
         s: target,
         duration: ZOOM_DUR,
@@ -118,28 +110,45 @@ export default function InfiniteGallery({ onClose, items = [] }) {
       })
     }
 
+    const startZoomTimer = () => {
+      if (zoomTimeout) clearTimeout(zoomTimeout)
+      zoomTimeout = setTimeout(() => {
+        if (isDragging && !isZoomedOut) zoomTo(SCALE_OUT)
+      }, 250) // Задержка 250мс для определения "удержания"
+    }
+
     // ─── EVENT HANDLERS ───────────────────────────────────────────────────────────
     const handleMouseDown = (e) => {
       if (lightboxOpen || e.button !== 0) return
       isDragging = true; didDrag = false
       dsx = e.clientX; dsy = e.clientY; dox = viewX; doy = viewY
       wrapperRef.current.classList.add('dragging')
-      zoomTo(SCALE_OUT)
+      startZoomTimer()
     }
     const handleMouseMove = (e) => {
       if (!isDragging) return
       const dx = e.clientX - dsx, dy = e.clientY - dsy
-      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) didDrag = true
+      
+      // Если начали двигать — это уже не просто клик, включаем зум сразу
+      if (!didDrag && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
+        didDrag = true
+        if (zoomTimeout) clearTimeout(zoomTimeout)
+        if (!isZoomedOut) zoomTo(SCALE_OUT)
+      }
+
       viewX = dox + dx; viewY = doy + dy
       applyTransform()
     }
     const handleMouseUp = () => {
+      if (!isDragging) return
       isDragging = false
+      if (zoomTimeout) clearTimeout(zoomTimeout)
       wrapperRef.current.classList.remove('dragging')
-      zoomTo(SCALE_NORMAL)
+      if (isZoomedOut) zoomTo(SCALE_NORMAL)
     }
     const handleMouseLeave = () => {
-      if (currentScale !== SCALE_NORMAL) zoomTo(SCALE_NORMAL)
+      if (isDragging) handleMouseUp()
+      else if (isZoomedOut) zoomTo(SCALE_NORMAL)
     }
     const handleWheel = (e) => {
       if (lightboxOpen) return
@@ -148,17 +157,22 @@ export default function InfiniteGallery({ onClose, items = [] }) {
       applyTransform()
     }
 
-    let touch0 = null
     const handleTouchStart = (e) => {
       if (lightboxOpen) return
-      touch0 = e.touches[0]; dox = viewX; doy = viewY; didDrag = false
+      const t = e.touches[0]
+      isDragging = true; didDrag = false
+      dsx = t.clientX; dsy = t.clientY; dox = viewX; doy = viewY
+      startZoomTimer()
     }
     const handleTouchMove = (e) => {
-      if (lightboxOpen) return
-      e.preventDefault()
+      if (!isDragging) return
       const t = e.touches[0]
-      const dx = t.clientX - touch0.clientX, dy = t.clientY - touch0.clientY
-      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) didDrag = true
+      const dx = t.clientX - dsx, dy = t.clientY - dsy
+      if (!didDrag && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
+        didDrag = true
+        if (zoomTimeout) clearTimeout(zoomTimeout)
+        if (!isZoomedOut) zoomTo(SCALE_OUT)
+      }
       viewX = dox + dx; viewY = doy + dy
       applyTransform()
     }
@@ -169,19 +183,17 @@ export default function InfiniteGallery({ onClose, items = [] }) {
     window.addEventListener('mouseup', handleMouseUp)
     wrapper.addEventListener('mouseleave', handleMouseLeave)
     wrapper.addEventListener('wheel', handleWheel, { passive: false })
-    wrapper.addEventListener('touchstart', handleTouchStart)
+    wrapper.addEventListener('touchstart', handleTouchStart, { passive: false })
     wrapper.addEventListener('touchmove', handleTouchMove, { passive: false })
+    wrapper.addEventListener('touchend', handleMouseUp)
 
     // ─── KEYBOARD & TICKER ────────────────────────────────────────────────────────
     const SPEED = 40; const keys = {}
     const handleKeyDown = (e) => {
       keys[e.key] = true
       if (e.key === 'Escape') {
-        if (lightboxOpen) {
-          closeLightbox()
-        } else if (!animatingLb) {
-          onClose() 
-        }
+        if (lightboxOpen) closeLightbox()
+        else if (!animatingLb) onClose() 
       }
       if (lightboxOpen && e.key === 'ArrowRight') navLightbox(1)
       if (lightboxOpen && e.key === 'ArrowLeft') navLightbox(-1)
@@ -207,6 +219,7 @@ export default function InfiniteGallery({ onClose, items = [] }) {
       if (didDrag) return
       const cardEl = e.target.closest('.ig-card')
       if (!cardEl) return
+      if (zoomTimeout) clearTimeout(zoomTimeout)
       openLightbox(parseInt(cardEl.dataset.idx))
     })
 
@@ -214,12 +227,8 @@ export default function InfiniteGallery({ onClose, items = [] }) {
       const item = validItems[idx]
       const num = String(idx + 1).padStart(2, '0')
       lbCardRef.current.innerHTML = `
-        <img src="${item.src}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;display:block;" />
-        <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 24px 36px;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);">
-          <div style="color:white;font-size:18px;font-weight:600;margin-bottom:6px;">${item.title}</div>
-          <div style="color:rgba(255,255,255,0.6);font-size:11px;text-transform:uppercase;letter-spacing:0.15em;">${item.badge}</div>
-        </div>
-        <div style="position:absolute;top:20px;left:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);padding:6px 12px;border-radius:30px;color:white;font-size:12px;font-weight:600;">${num}</div>
+        <img src="${item.src}" alt="${item.title}" style="width:100%;height:auto;max-height:85vh;object-fit:contain;display:block;" />
+        <div style="position:absolute;top:20px;left:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);padding:6px 12px;border-radius:30px;color:white;font-size:12px;font-weight:600;pointer-events:none;">${num}</div>
       `
       lbCounterRef.current.textContent = `${idx + 1} / ${UNIQUE}`
     }
@@ -232,17 +241,20 @@ export default function InfiniteGallery({ onClose, items = [] }) {
       wrapper.classList.add('lightbox-open')
       lbRef.current.classList.add('active')
 
-      gsap.to([hudRef.current, navHintRef.current, minimapRef.current, coordsRef.current, closeBtnRef.current], { opacity: 0, duration: 0.25 })
+      gsap.to([navHintRef.current, minimapRef.current, coordsRef.current, closeBtnRef.current], { opacity: 0, duration: 0.25 })
       if (closeBtnRef.current) closeBtnRef.current.style.pointerEvents = 'none'
       gsap.fromTo(lbRef.current, { opacity: 0 }, { opacity: 1, duration: 0.32, ease: 'power2.out' })
       gsap.fromTo(lbCardRef.current, { scale: 0.80, y: 32, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 0.42, ease: 'power3.out' })
     }
 
     const closeLightbox = () => {
-      if (!lightboxOpen) return
+      // Кнопка закрытия не должна виснуть — игнорируем только если УЖЕ идет закрытие
+      if (!lightboxOpen && animatingLb) return 
+      
       lightboxOpen = false
       animatingLb = true
       wrapper.classList.remove('lightbox-open')
+      
       gsap.to(lbCardRef.current, { scale: 0.86, y: 24, opacity: 0, duration: 0.28, ease: 'power2.in' })
       gsap.to(lbRef.current, { 
         opacity: 0, duration: 0.32, ease: 'power2.in', delay: 0.05, 
@@ -252,7 +264,7 @@ export default function InfiniteGallery({ onClose, items = [] }) {
           if (closeBtnRef.current) closeBtnRef.current.style.pointerEvents = ''
         }
       })
-      gsap.to([hudRef.current, navHintRef.current, minimapRef.current, coordsRef.current, closeBtnRef.current], { opacity: 1, duration: 0.35, delay: 0.2 })
+      gsap.to([navHintRef.current, minimapRef.current, coordsRef.current, closeBtnRef.current], { opacity: 1, duration: 0.35, delay: 0.2 })
     }
 
     const navLightbox = (dir) => {
@@ -266,15 +278,10 @@ export default function InfiniteGallery({ onClose, items = [] }) {
       })
     }
 
-    window.closeLb = (e) => {
-      if (e && e.stopPropagation) e.stopPropagation()
-      closeLightbox()
-    }
-    window.navLb = (dir, e) => {
-      if (e && e.stopPropagation) e.stopPropagation()
-      navLightbox(dir)
-    }
-    window.canCloseGallery = () => !lightboxOpen && !animatingLb
+    // Экспонируем функции для JSX
+    window._closeLb = closeLightbox
+    window._navLb = navLightbox
+    window._canCloseGallery = () => !lightboxOpen && !animatingLb
 
     // ─── ENTRANCE ANIMATION ───────────────────────────────────────────────────────
     const mc = Math.floor(TOTAL_COLS / 2), mr = Math.floor(TOTAL_ROWS / 2)
@@ -298,23 +305,20 @@ export default function InfiniteGallery({ onClose, items = [] }) {
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('keyup', handleKeyUp)
       gsap.ticker.remove(ticker)
-      delete window.closeLb
-      delete window.navLb
-      delete window.canCloseGallery
+      delete window._closeLb
+      delete window._navLb
+      delete window._canCloseGallery
     }
   }, []) // Removed unstable dependencies to avoid accidental remounts
 
   return (
     <div className="infinite-gallery-modal">
       <button className="ig-close-btn" ref={closeBtnRef} onClick={(e) => {
-        if (window.canCloseGallery && !window.canCloseGallery()) return;
+        if (window._canCloseGallery && !window._canCloseGallery()) return;
         onClose();
       }} aria-label="Close Gallery">✕</button>
 
       <div className="infinite-gallery-wrapper" ref={wrapperRef}>
-        <div className="ig-hud" ref={hudRef}>
-          <span className="ig-hud-label">Hold click — zoom out · Drag — pan · Click card — open</span>
-        </div>
         <div className="ig-coords" ref={coordsRef}>0, 0</div>
         <div className="ig-nav-hint" ref={navHintRef}>infinite canvas — drag to explore</div>
         <div className="ig-minimap" ref={minimapRef}>
@@ -325,12 +329,12 @@ export default function InfiniteGallery({ onClose, items = [] }) {
         <div className="ig-canvas" ref={canvasRef}></div>
 
         <div className="ig-lightbox" ref={lbRef}>
-          <div className="ig-lb-backdrop" onClick={(e) => window.closeLb?.(e)}></div>
-          <span className="ig-lb-esc" onClick={(e) => window.closeLb?.(e)} style={{cursor: 'pointer'}}>ESC — close</span>
-          <button className="ig-lb-close" onClick={(e) => window.closeLb?.(e)}>✕</button>
-          <button className="ig-lb-arrow ig-lb-prev" onClick={(e) => window.navLb?.(-1, e)}>‹</button>
+          <div className="ig-lb-backdrop" onClick={(e) => window._closeLb?.(e)}></div>
+          <span className="ig-lb-esc" onClick={(e) => window._closeLb?.(e)} style={{cursor: 'pointer'}}>ESC — close</span>
+          <button className="ig-lb-close" onClick={(e) => window._closeLb?.(e)}>✕</button>
+          <button className="ig-lb-arrow ig-lb-prev" onClick={(e) => window._navLb?.(-1, e)}>‹</button>
           <div className="ig-lb-card" ref={lbCardRef}></div>
-          <button className="ig-lb-arrow ig-lb-next" onClick={(e) => window.navLb?.(1, e)}>›</button>
+          <button className="ig-lb-arrow ig-lb-next" onClick={(e) => window._navLb?.(1, e)}>›</button>
           <div className="ig-lb-counter" ref={lbCounterRef}></div>
         </div>
       </div>

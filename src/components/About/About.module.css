@@ -13,7 +13,7 @@
 .island {
   background: #1C1C1E;
   border-radius: 28px;
-  padding: 76px 64px;
+  padding: 40px 56px 56px;
   box-sizing: border-box;
 }
 
@@ -22,12 +22,12 @@
   margin-bottom: 48px;
 }
 .subtitle {
-  font-size: 56px;
+  font-size: clamp(24px, 2.8vw, 40px);
   font-weight: 700;
   color: #FFFFFF;
   margin: 0;
-  letter-spacing: -1px;
-  line-height: 1.1;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
 }
 
 /* ===== BENTO GRID ===== */
@@ -268,12 +268,8 @@
     grid-template-columns: 1fr;
   }
 
-  .subtitle {
-    font-size: clamp(32px, 5vw, 48px);
-  }
-
   .island {
-    padding: 56px 40px;
+    padding: 44px 32px 42px;
   }
 
   .photoWrap {
@@ -288,7 +284,7 @@
   }
 
   .island {
-    padding: 40px 24px;
+    padding: 32px 20px 30px;
     border-radius: 20px;
   }
 
@@ -297,7 +293,7 @@
   }
 
   .subtitle {
-    font-size: clamp(26px, 6vw, 36px);
+    font-size: clamp(20px, 5vw, 32px);
   }
 
   .cardStats {
@@ -374,7 +370,7 @@
   }
 
   .island {
-    padding: 28px 16px;
+    padding: 22px 14px 20px;
     border-radius: 16px;
   }
 
@@ -383,7 +379,7 @@
   }
 
   .subtitle {
-    font-size: clamp(22px, 6vw, 28px);
+    font-size: clamp(18px, 5vw, 24px);
   }
 
   .cardStats {

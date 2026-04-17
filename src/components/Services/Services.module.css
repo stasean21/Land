@@ -12,7 +12,7 @@
 .island {
   background: #1C1C1E;
   border-radius: 20px;
-  padding: 80px 64px;
+  padding: 40px 56px 56px;
 }
 .header { margin-bottom: 56px; }
 .subtitle {
@@ -47,6 +47,11 @@
   border: 1px solid #2f2f33;
   overflow: hidden;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cardLink {
+  color: inherit;
+  text-decoration: none;
 }
 
 .card:hover {
@@ -265,7 +270,7 @@
   }
 
   .island {
-    padding: 56px 40px;
+    padding: 44px 32px 42px;
   }
 }
 
@@ -275,7 +280,7 @@
   }
 
   .island {
-    padding: 40px 24px;
+    padding: 32px 20px 30px;
     border-radius: 16px;
   }
 
@@ -312,7 +317,7 @@
   }
 
   .island {
-    padding: 28px 16px;
+    padding: 22px 14px 20px;
     border-radius: 14px;
   }
 

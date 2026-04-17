@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
+  padding: calc(24px + var(--header-safe-space)) 24px 24px;
   box-sizing: border-box;
 }
 
@@ -226,7 +226,7 @@
 
 @media (max-width: 768px) {
   .heroWrapper {
-    padding: 12px;
+    padding: calc(12px + var(--header-safe-space)) 12px 12px;
   }
 
   .video {
@@ -291,7 +291,7 @@
 
 @media (max-width: 480px) {
   .heroWrapper {
-    padding: 8px;
+    padding: calc(8px + var(--header-safe-space)) 8px 8px;
   }
 
   .hero {
