@@ -64,7 +64,7 @@ export default function Hero() {
           playsInline
           preload="auto"
         >
-          <source src={assetUrl('/49ad4337258c34a72e49ba55f84f481a_51c9d738-01c8-44fe-953d-8f02eaf0324c.mp4')} type="video/mp4" />
+          <source src={assetUrl('/main-video-1.mov')} type="video/mov" />
         </video>
 
         {/* оверлей */}
