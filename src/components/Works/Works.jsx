@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { createPortal } from 'react-dom'
-import InfiniteGallery from './InfiniteGallery'
 import styles from './Works.module.css'
 import { assetUrl } from '../../utils/assetUrl'
 
 gsap.registerPlugin(ScrollTrigger)
+const InfiniteGallery = lazy(() => import('./InfiniteGallery'))
 
 /* ================================================================
    DATA
@@ -111,6 +111,9 @@ function Lightbox({ allItems, index, onClose, onPrev, onNext }) {
           className={styles.lightboxImage}
           src={item.src}
           alt={item.title}
+          loading="eager"
+          decoding="sync"
+          fetchPriority="high"
         />
 
       </div>
@@ -214,7 +217,14 @@ function WorksBlock({ block, onImageClick, onOpenGallery, interval = 5000 }) {
               data-card
               onClick={() => onImageClick(item)}
             >
-              <img className={styles.designCardImage} src={item.src} alt={item.title} loading="lazy" />
+              <img
+                className={styles.designCardImage}
+                src={item.src}
+                alt={item.title}
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
+              />
               <div className={styles.designOverlay}>
                 <div className={styles.overlayContent}>
                   <p className={styles.overlayTitle}>{item.title}</p>
@@ -312,7 +322,9 @@ export default function Works() {
       )}
 
       {showGallery && createPortal(
-        <InfiniteGallery onClose={() => setShowGallery(false)} items={allItems} />,
+        <Suspense fallback={<div className={styles.galleryLoader}>Загружаем галерею...</div>}>
+          <InfiniteGallery onClose={() => setShowGallery(false)} items={allItems} />
+        </Suspense>,
         document.body
       )}
     </section>

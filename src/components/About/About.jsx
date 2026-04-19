@@ -112,7 +112,7 @@ function Key({ label, color, icon, gsapIndex, registerKey }) {
     >
       <div ref={faceRef} className={styles.keyFace}>
         {icon
-          ? <img src={icon} alt={label} className={styles.keyIcon} />
+          ? <img src={icon} alt={label} className={styles.keyIcon} loading="lazy" decoding="async" />
           : <div className={styles.keyDot} style={{ background: color }} />
         }
       </div>
@@ -232,7 +232,14 @@ export default function About() {
 
             <div className={[styles.card, styles.cardStory].join(' ')}>
               <div className={styles.photoWrap}>
-                <img src="/photo.jpg" alt="Станислав Мунтяну" className={styles.photo} />
+                <img
+                  src="/photo.jpg"
+                  alt="Станислав Мунтяну"
+                  className={styles.photo}
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                />
                 <div className={styles.photoOverlay} />
               </div>
               <div className={styles.storyText}>

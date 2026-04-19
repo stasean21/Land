@@ -6,3 +6,14 @@
   background: #f0f0f0;
 }
 
+.deferSection {
+  width: 100%;
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px;
+}
+
+.sectionSkeleton {
+  width: 100%;
+  min-height: 320px;
+  background: #f1f2f3;
+}

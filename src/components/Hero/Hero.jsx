@@ -10,7 +10,8 @@ const PHRASES = [
 const TYPE_MS   = 80
 const DELETE_MS = 40
 const PAUSE_MS  = 2000
-const HERO_VIDEO_URL = 'https://storage.yandexcloud.net/landing-main/main-video-1.mov?v=20260419'
+const HERO_VIDEO_WEBM = 'https://storage.yandexcloud.net/landing-main/video/main-video-1.webm?v=20260419'
+const HERO_VIDEO_MP4  = 'https://storage.yandexcloud.net/landing-main/video/main-video-1.mp4?v=20260419'
 
 export default function Hero() {
   const typewriterRef = useRef(null)
@@ -65,7 +66,8 @@ export default function Hero() {
           preload="metadata"
           aria-hidden="true"
         >
-          <source src={HERO_VIDEO_URL} />
+          <source src={HERO_VIDEO_WEBM} type="video/webm" />
+          <source src={HERO_VIDEO_MP4} type="video/mp4" />
         </video>
 
         {/* оверлей */}

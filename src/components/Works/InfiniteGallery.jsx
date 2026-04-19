@@ -20,7 +20,9 @@ export default function InfiniteGallery({ onClose, items = [] }) {
 
     // ─── CONFIG ───────────────────────────────────────────────────────────────────
     const TILE_W = 240, TILE_H = 320, GAP = 32
-    const COLS = 4, ROWS = 4, REPEAT = 4
+    const COLS = 4, ROWS = 4
+    const isMobile = window.innerWidth <= 768
+    const REPEAT = isMobile ? 1 : 2
     const TOTAL_COLS = COLS * (REPEAT * 2 + 1)
     const TOTAL_ROWS = ROWS * (REPEAT * 2 + 1)
     const CELL_W = TILE_W + GAP
@@ -53,7 +55,7 @@ export default function InfiniteGallery({ onClose, items = [] }) {
         card.dataset.idx = idx
         card.innerHTML = `
           <div class="ig-card-inner">
-            <img class="ig-card-img" src="${item.src}" alt="${item.title}" loading="lazy" />
+            <img class="ig-card-img" src="${item.src}" alt="${item.title}" loading="lazy" decoding="async" />
             <div class="ig-card-num-badge">${num}</div>
           </div>`
         canvas.appendChild(card)

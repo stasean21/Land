@@ -27,7 +27,7 @@ export default function Header() {
         {/* Правая группа */}
         <div className={`${styles.links} ${styles.linksRight}`}>
           <a href="#works" className={styles.link}>Работы</a>
-          <a href="#resume" className={styles.link}>Резюме</a>
+          <a href="#resume" className={styles.link}>Этапы работы</a>
           <a href="#contact" className={styles.link}>Контакты</a>
         </div>
 
@@ -48,7 +48,7 @@ export default function Header() {
         <a href="#services"  onClick={handleLink} className={styles.mobileLink}>Услуги</a>
         <a href="#about"     onClick={handleLink} className={styles.mobileLink}>Обо мне</a>
         <a href="#works"     onClick={handleLink} className={styles.mobileLink}>Работы</a>
-        <a href="#resume"    onClick={handleLink} className={styles.mobileLink}>Резюме</a>
+        <a href="#resume"    onClick={handleLink} className={styles.mobileLink}>Этапы работы</a>
         <a href="#contact"   onClick={handleLink} className={styles.mobileLink}>Контакты</a>
       </div>
     </header>
