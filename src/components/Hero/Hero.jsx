@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import styles from './Hero.module.css'
-import { assetUrl } from '../../utils/assetUrl'
 
 const PHRASES = [
   'Инфографика для маркетплейсов',
@@ -11,6 +10,7 @@ const PHRASES = [
 const TYPE_MS   = 80
 const DELETE_MS = 40
 const PAUSE_MS  = 2000
+const HERO_VIDEO_URL = 'https://storage.yandexcloud.net/landing-main/main-video-1.mov?v=20260419'
 
 export default function Hero() {
   const typewriterRef = useRef(null)
@@ -62,9 +62,10 @@ export default function Hero() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
+          aria-hidden="true"
         >
-          <source src={assetUrl('/main-video-1.mov')} type="video/mov" />
+          <source src={HERO_VIDEO_URL} />
         </video>
 
         {/* оверлей */}
