@@ -17,44 +17,49 @@ const BLOCKS = [
     num: '01',
     title: 'Дизайн и инфографика',
     items: [
-      { id: 'd1', src: assetUrl('/1.jpg'), title: 'Крем NATURELLE',      badge: 'Wildberries' },
-      { id: 'd2', src: assetUrl('/2.jpg'), title: 'Наушники Aurora ANC',  badge: 'Ozon' },
-      { id: 'd3', src: assetUrl('/3.jpg'), title: 'Витамины Daily Multi', badge: 'Ozon' },
-      { id: 'd4', src: assetUrl('/4.jpg'), title: 'Кухонные приборы',     badge: 'Ozon' },
+      { id: 'd1', src: 'https://storage.yandexcloud.net/landing-main/design-info/1.webp' },
+      { id: 'd2', src: 'https://storage.yandexcloud.net/landing-main/design-info/2.webp' },
+      { id: 'd3', src: 'https://storage.yandexcloud.net/landing-main/design-info/3.webp' },
+      { id: 'd4', src: 'https://storage.yandexcloud.net/landing-main/design-info/4.webp' },
+      { id: 'd5', src: 'https://storage.yandexcloud.net/landing-main/design-info/5.webp' },
+      { id: 'd6', src: 'https://storage.yandexcloud.net/landing-main/design-info/6.webp' },
+      { id: 'd7', src: 'https://storage.yandexcloud.net/landing-main/design-info/7.webp' },
+      { id: 'd8', src: 'https://storage.yandexcloud.net/landing-main/design-info/8.webp' },
+      { id: 'd9', src: 'https://storage.yandexcloud.net/landing-main/design-info/9.webp' },
+      { id: 'd10', src: 'https://storage.yandexcloud.net/landing-main/design-info/10.webp' },
+      { id: 'd11', src: 'https://storage.yandexcloud.net/landing-main/design-info/11.webp' },
+      { id: 'd12', src: 'https://storage.yandexcloud.net/landing-main/design-info/12.webp' },
+      { id: 'd13', src: 'https://storage.yandexcloud.net/landing-main/design-info/13.webp' },
+      { id: 'd14', src: 'https://storage.yandexcloud.net/landing-main/design-info/14.webp' },
+      { id: 'd15', src: 'https://storage.yandexcloud.net/landing-main/design-info/15.webp' },
+      { id: 'd16', src: 'https://storage.yandexcloud.net/landing-main/design-info/16.webp' },
+      { id: 'd17', src: 'https://storage.yandexcloud.net/landing-main/design-info/17.webp' },
+      { id: 'd18', src: 'https://storage.yandexcloud.net/landing-main/design-info/18.webp' },
+      { id: 'd19', src: 'https://storage.yandexcloud.net/landing-main/design-info/19.webp' },
+      { id: 'd20', src: 'https://storage.yandexcloud.net/landing-main/design-info/20.webp' },
+      { id: 'd21', src: 'https://storage.yandexcloud.net/landing-main/design-info/21.webp' },
+      { id: 'd22', src: 'https://storage.yandexcloud.net/landing-main/design-info/22.webp' },
+      { id: 'd23', src: 'https://storage.yandexcloud.net/landing-main/design-info/23.webp' },
+      { id: 'd24', src: 'https://storage.yandexcloud.net/landing-main/design-info/24.webp' },
     ],
   },
   {
     id: 'photo',
     num: '02',
     title: 'Предметная съёмка + AI',
-    items: [
-      { id: 'p1', src: assetUrl('/5.jpg'), title: 'Парфюм Aura Blossom',   badge: 'Макро' },
-      { id: 'p2', src: assetUrl('/6.jpg'), title: 'Premium Headphones',     badge: 'AI-фон' },
-      { id: 'p3', src: assetUrl('/7.jpg'), title: 'Luxury Watch',           badge: 'Композинг' },
-      { id: 'p4', src: assetUrl('/1.jpg'), title: 'Organic Cosmetics Line', badge: 'AI-сцена' },
-    ],
+    items: [],
   },
   {
     id: 'ai-photo',
     num: '03',
     title: 'AI-фотосессии',
-    items: [
-      { id: 'a1', src: assetUrl('/2.jpg'), title: 'Leather Bag Interior', badge: 'Nano Banana' },
-      { id: 'a2', src: assetUrl('/3.jpg'), title: 'Dinnerware Set',       badge: 'AI-сцена' },
-      { id: 'a3', src: assetUrl('/4.jpg'), title: 'Trail Sneakers',       badge: 'Lifestyle' },
-      { id: 'a4', src: assetUrl('/5.jpg'), title: 'Coffee Machine Loft',  badge: 'Интерьер' },
-    ],
+    items: [],
   },
   {
     id: 'animation',
     num: '04',
     title: 'Оживление фото',
-    items: [
-      { id: 'an1', src: assetUrl('/6.jpg'), title: 'Serum До / После', badge: 'Видеообложка' },
-      { id: 'an2', src: assetUrl('/7.jpg'), title: 'Headphones Promo',  badge: 'Анимация' },
-      { id: 'an3', src: assetUrl('/1.jpg'), title: 'Aurum Watch',       badge: 'Motion' },
-      { id: 'an4', src: assetUrl('/2.jpg'), title: 'Apex Bio Greens',   badge: 'Видеообложка' },
-    ],
+    items: [],
   },
 ]
 
@@ -220,17 +225,11 @@ function WorksBlock({ block, onImageClick, onOpenGallery, interval = 5000 }) {
               <img
                 className={styles.designCardImage}
                 src={item.src}
-                alt={item.title}
+                alt=""
                 loading="lazy"
                 decoding="async"
                 fetchPriority="low"
               />
-              <div className={styles.designOverlay}>
-                <div className={styles.overlayContent}>
-                  <p className={styles.overlayTitle}>{item.title}</p>
-                  <span className={styles.overlayBadge}>{item.badge}</span>
-                </div>
-              </div>
             </div>
           ))}
         </div>
@@ -298,15 +297,17 @@ export default function Works() {
             interval={3000}
           />
 
-          {/* 02, 03, 04 — остальные блоки */}
-          {BLOCKS.slice(1).map((block, idx) => (
-            <WorksBlock 
-              key={block.id} 
-              block={block} 
-              onImageClick={openLightbox} 
-              interval={3000 + (idx * 500)} // Небольшой рассинхрон для живости
-            />
-          ))}
+          {/* 02, 03, 04 — остальные блоки (отображаем только если есть контент) */}
+          {BLOCKS.slice(1)
+            .filter(block => block.items.length > 0)
+            .map((block, idx) => (
+              <WorksBlock 
+                key={block.id} 
+                block={block} 
+                onImageClick={openLightbox} 
+                interval={3000 + (idx * 500)}
+              />
+            ))}
         </div>
       </div>
 

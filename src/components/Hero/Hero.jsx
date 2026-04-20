@@ -12,6 +12,7 @@ const DELETE_MS = 40
 const PAUSE_MS  = 2000
 const HERO_VIDEO_WEBM = 'https://storage.yandexcloud.net/landing-main/video/main-video-1.webm?v=20260419'
 const HERO_VIDEO_MP4  = 'https://storage.yandexcloud.net/landing-main/video/main-video-1.mp4?v=20260419'
+const HERO_VIDEO_POSTER = 'https://storage.yandexcloud.net/landing-main/video/main-video-1-poster.jpg'
 
 export default function Hero() {
   const typewriterRef = useRef(null)
@@ -64,6 +65,7 @@ export default function Hero() {
           loop
           playsInline
           preload="metadata"
+          poster={HERO_VIDEO_POSTER}
           aria-hidden="true"
         >
           <source src={HERO_VIDEO_WEBM} type="video/webm" />

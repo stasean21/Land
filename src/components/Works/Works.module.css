@@ -91,7 +91,7 @@
   will-change: transform;
 }
 
-.designCard, .placeholderCard {
+.designCard {
   position: relative;
   flex: 0 0 calc(33.333% - 11px); /* 3 в ряд с учетом gap 16px */
   border-radius: 18px;
@@ -104,23 +104,23 @@
 }
 
 @media (max-width: 1024px) {
-  .designCard, .placeholderCard {
+  .designCard {
     flex: 0 0 calc(50% - 8px); /* 2 в ряд */
   }
 }
 
 @media (max-width: 600px) {
-  .designCard, .placeholderCard {
+  .designCard {
     flex: 0 0 100%; /* 1 в ряд */
   }
 }
 
-.designCard:hover, .placeholderCard:hover {
+.designCard:hover {
   border-color: rgba(34, 197, 94, 0.35);
   box-shadow: 0 12px 30px rgba(0,0,0,0.4);
 }
 
-.designCardImage, .placeholderImage {
+.designCardImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -132,45 +132,9 @@
   transform: scale(1.04);
 }
 
-.designOverlay, .placeholderOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  display: flex;
-  align-items: flex-end;
-  padding: 24px;
-}
 
-.designCard:hover .designOverlay,
-.placeholderCard:hover .placeholderOverlay {
-  opacity: 1;
-}
 
-.overlayContent {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
-.overlayTitle {
-  font-size: 15px;
-  font-weight: 600;
-  color: #FFFFFF;
-  margin: 0;
-}
-
-.overlayBadge {
-  font-size: 11px;
-  font-weight: 500;
-  color: #22c55e;
-  background: rgba(34, 197, 94, 0.15);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  border-radius: 20px;
-  padding: 3px 10px;
-  white-space: nowrap;
-}
 
 /* ===== CTA BUTTON ===== */
 .ctaWrap {
@@ -196,64 +160,6 @@
   transform: translateY(-2px);
 }
 
-/* ===== PLACEHOLDER BLOCKS (2, 3, 4) ===== */
-.placeholderGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.placeholderCard {
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  background: #2C2C2E;
-  border: 1px solid rgba(255,255,255,0.06);
-  aspect-ratio: 3 / 4;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.35s ease,
-              box-shadow 0.35s ease;
-  cursor: pointer;
-}
-
-.placeholderCard:hover {
-  transform: translateY(-5px);
-  border-color: rgba(34, 197, 94, 0.35);
-  box-shadow:
-    0 18px 44px rgba(0,0,0,0.4),
-    0 0 0 1px rgba(34, 197, 94, 0.15);
-}
-
-.placeholderImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.placeholderCard:hover .placeholderImage {
-  transform: scale(1.04);
-}
-
-.placeholderOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 50%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  display: flex;
-  align-items: flex-end;
-  padding: 20px;
-}
-
-.placeholderCard:hover .placeholderOverlay {
-  opacity: 1;
-}
 
 /* ===== LIGHTBOX ===== */
 .lightbox {
@@ -444,11 +350,7 @@
     font-size: 26px;
   }
 
-  .placeholderGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 
-  .designGrid { width: 100%; }
 }
 
 @media (max-width: 768px) {
@@ -475,31 +377,7 @@
     padding: 4px 10px;
   }
 
-  .designGrid {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    height: auto;
-    gap: 12px;
-    width: 100%;
-  }
 
-  .designCardMain {
-    grid-row: auto;
-  }
-
-  .placeholderGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .designOverlay,
-  .placeholderOverlay {
-    padding: 16px;
-  }
-
-  .overlayTitle {
-    font-size: 13px;
-  }
 
   .lightboxPrev { left: 12px; }
   .lightboxNext { right: 12px; }
@@ -528,34 +406,11 @@
     gap: 10px;
   }
 
-  .designGrid {
-    gap: 8px;
-    height: auto;
-  }
-
-  .placeholderGrid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .designCard,
-  .placeholderCard {
+  .designCard {
     border-radius: 12px;
   }
 
-  .designOverlay,
-  .placeholderOverlay {
-    padding: 12px;
-  }
 
-  .overlayTitle {
-    font-size: 12px;
-  }
-
-  .overlayBadge {
-    font-size: 10px;
-    padding: 2px 8px;
-  }
 
   .lightboxImage {
     max-width: 95vw;
