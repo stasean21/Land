@@ -164,6 +164,10 @@
   .designCard {
     flex: 0 0 100%; /* 1 в ряд */
   }
+
+  .carouselNav {
+    display: none;
+  }
 }
 
 .designCard:hover {

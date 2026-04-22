@@ -139,6 +139,8 @@ function WorksBlock({ block, onImageClick, onOpenGallery, interval = 5000 }) {
   const [isPaused, setIsPaused] = useState(false)
   const trackRef = useRef(null)
   const timerRef = useRef(null)
+  const touchStartX = useRef(null)
+  const touchStartY = useRef(null)
 
   const rotate = useCallback(() => {
     if (!trackRef.current) return
@@ -205,6 +207,23 @@ function WorksBlock({ block, onImageClick, onOpenGallery, interval = 5000 }) {
     }, 0)
   }, [rotatePrev])
 
+  const handleTouchStart = useCallback((e) => {
+    touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
+  }, [])
+
+  const handleTouchEnd = useCallback((e) => {
+    if (touchStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    const dy = e.changedTouches[0].clientY - touchStartY.current
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) rotateNext()
+      else handlePrev()
+    }
+    touchStartX.current = null
+    touchStartY.current = null
+  }, [rotateNext, handlePrev])
+
   // Бесшовный сброс позиции трека после вращения стейта
   useLayoutEffect(() => {
     gsap.set(trackRef.current, { x: 0 })
@@ -263,7 +282,11 @@ function WorksBlock({ block, onImageClick, onOpenGallery, interval = 5000 }) {
           ‹
         </button>
 
-        <div className={styles.carouselViewport}>
+        <div
+          className={styles.carouselViewport}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className={styles.carouselTrack} ref={trackRef}>
             {items.map((item) => (
               <div
