@@ -1,0 +1,67 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #0f0f0f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hiding {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 96px;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: 8px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.track {
+  width: 180px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  width: 60%;
+  background: linear-gradient(90deg, #16a34a, #22c55e, #4ade80);
+  border-radius: 2px;
+  animation: sweep 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.label {
+  font-family: 'Gilroy', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.85; }
+  50%       { opacity: 1; }
+}
+
+@keyframes sweep {
+  0%   { transform: translateX(-167%); }
+  100% { transform: translateX(267%); }
+}

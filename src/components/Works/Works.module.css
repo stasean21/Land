@@ -78,10 +78,21 @@
 }
 
 /* ===== CAROUSEL SYSTEM ===== */
+.carouselContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  width: 100%;
+}
+
 .carouselViewport {
   width: 100%;
   overflow: hidden;
   position: relative;
+  flex: 1;
+  min-width: 0;
 }
 
 .carouselTrack {
@@ -90,6 +101,46 @@
   width: 100%;
   will-change: transform;
 }
+
+.carouselNav {
+  position: relative;
+  flex-shrink: 0;
+  width: auto;
+  height: auto;
+  min-width: auto;
+  min-height: auto;
+  border-radius: 0;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+  padding: 8px;
+  box-shadow: none;
+}
+
+.carouselNav:hover {
+  background: none;
+  border-color: transparent;
+  color: #22c55e;
+  transform: scale(1.15);
+  box-shadow: none;
+}
+
+.carouselNav:active {
+  transform: scale(1);
+  box-shadow: none;
+}
+
+.carouselPrev { order: -1; }
+.carouselNext { order: 1; }
 
 .designCard {
   position: relative;
@@ -313,6 +364,104 @@
 .lightboxPrev { left: 32px; }
 .lightboxNext { right: 32px; }
 
+/* ===== BEFORE/AFTER SLIDER ===== */
+.beforeAfterContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 24px;
+  cursor: col-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  aspect-ratio: 16 / 9;
+  background: #2C2C2E;
+}
+
+.beforeAfterImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.beforeAfterImageClipped {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.beforeAfterClip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+  width: 50%;
+}
+
+.beforeAfterSlider {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(34, 197, 94, 0.3) 0%, rgba(34, 197, 94, 1) 50%, rgba(34, 197, 94, 0.3) 100%);
+  transform: translateX(-2px);
+  z-index: 10;
+}
+
+.beforeAfterHandle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  background: rgba(34, 197, 94, 0.2);
+  border: 2px solid #22c55e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+.beforeAfterSlider:hover .beforeAfterHandle {
+  background: rgba(34, 197, 94, 0.3);
+  box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.beforeAfterArrow {
+  width: 16px;
+  height: 16px;
+  color: #22c55e;
+  flex-shrink: 0;
+}
+
+.beforeAfterLabel {
+  position: absolute;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  pointer-events: none;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+  z-index: 5;
+}
+
 @media (max-width: 768px) {
   .lightboxNav {
     width: 44px;
@@ -326,6 +475,20 @@
     padding: 10px 16px;
   }
   .infoTitle { font-size: 14px; }
+
+  .beforeAfterContainer {
+    aspect-ratio: 9 / 12;
+  }
+
+  .beforeAfterHandle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .beforeAfterArrow {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 /* ===== ANIMATIONS ===== */
@@ -377,7 +540,18 @@
     padding: 4px 10px;
   }
 
+  .carouselContainer {
+    gap: 12px;
+  }
 
+  .carouselNav {
+    font-size: 28px;
+    padding: 6px;
+  }
+
+  .carouselNav:hover {
+    transform: scale(1.12);
+  }
 
   .lightboxPrev { left: 12px; }
   .lightboxNext { right: 12px; }
@@ -410,7 +584,18 @@
     border-radius: 12px;
   }
 
+  .carouselContainer {
+    gap: 8px;
+  }
 
+  .carouselNav {
+    font-size: 24px;
+    padding: 4px;
+  }
+
+  .carouselNav:hover {
+    transform: scale(1.08);
+  }
 
   .lightboxImage {
     max-width: 95vw;

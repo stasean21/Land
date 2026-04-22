@@ -1,6 +1,8 @@
 import { Suspense, lazy } from 'react'
 import Header from './components/Header/Header'
 import Hero from './components/Hero/Hero'
+import Preloader from './components/Preloader/Preloader'
+import CookieBanner from './components/CookieBanner/CookieBanner'
 import styles from './App.module.css'
 
 const Services = lazy(() => import('./components/Services/Services'))
@@ -11,6 +13,8 @@ const Contacts = lazy(() => import('./components/Contacts/Contacts'))
 export default function App() {
   return (
     <div id="top" className={styles.app}>
+      <Preloader />
+      <CookieBanner />
       <Header />
       <Hero />
       <div className={styles.deferSection}>

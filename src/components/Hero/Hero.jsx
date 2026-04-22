@@ -80,8 +80,8 @@ export default function Hero() {
 
           {/* шапка */}
           <div className={styles.meta}>
-            <span>Портфолио</span>
-            <span>Ozon · Wildberries · Яндекс Маркет</span>
+            <span>ГРАФИЧЕСКИЙ ДИЗАЙНЕР</span>
+            <span>CONTENT AI · ВИЗУАЛ · ГРАФИКА</span>
           </div>
 
           {/* имя */}

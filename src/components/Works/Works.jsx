@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { createPortal } from 'react-dom'
 import styles from './Works.module.css'
-import { assetUrl } from '../../utils/assetUrl'
+import BeforeAfter from './BeforeAfter'
 
 gsap.registerPlugin(ScrollTrigger)
 const InfiniteGallery = lazy(() => import('./InfiniteGallery'))
@@ -46,8 +46,8 @@ const BLOCKS = [
   {
     id: 'photo',
     num: '02',
-    title: 'Предметная съёмка + AI',
-    items: [],
+    title: 'AI Предметная съёмка + Upscale',
+    items: [{ id: 'placeholder' }], // Dummy item to enable the block
   },
   {
     id: 'ai-photo',
@@ -164,6 +164,47 @@ function WorksBlock({ block, onImageClick, onOpenGallery, interval = 5000 }) {
     })
   }, [])
 
+  const rotatePrev = useCallback(() => {
+    if (!trackRef.current) return
+
+    const cards = trackRef.current.children
+    if (cards.length < 2) return
+    
+    setItems((prev) => {
+      const next = [...prev]
+      const last = next.pop()
+      next.unshift(last)
+      return next
+    })
+
+    setTimeout(() => {
+      const cardWidth = cards[0].offsetWidth
+      const gap = 16
+      const moveDist = cardWidth + gap
+      gsap.to(trackRef.current, {
+        x: moveDist,
+        duration: 0.8,
+        ease: 'power2.inOut',
+      })
+    }, 0)
+  }, [])
+
+  const rotateNext = useCallback(() => {
+    setIsPaused(true)
+    setTimeout(() => {
+      setIsPaused(false)
+      rotate()
+    }, 0)
+  }, [rotate])
+
+  const handlePrev = useCallback(() => {
+    setIsPaused(true)
+    setTimeout(() => {
+      setIsPaused(false)
+      rotatePrev()
+    }, 0)
+  }, [rotatePrev])
+
   // Бесшовный сброс позиции трека после вращения стейта
   useLayoutEffect(() => {
     gsap.set(trackRef.current, { x: 0 })
@@ -213,26 +254,44 @@ function WorksBlock({ block, onImageClick, onOpenGallery, interval = 5000 }) {
         )}
       </div>
 
-      <div className={styles.carouselViewport}>
-        <div className={styles.carouselTrack} ref={trackRef}>
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className={styles.designCard}
-              data-card
-              onClick={() => onImageClick(item)}
-            >
-              <img
-                className={styles.designCardImage}
-                src={item.src}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                fetchPriority="low"
-              />
-            </div>
-          ))}
+      <div className={styles.carouselContainer}>
+        <button
+          className={`${styles.carouselNav} ${styles.carouselPrev}`}
+          onClick={handlePrev}
+          aria-label="Предыдущие работы"
+        >
+          ‹
+        </button>
+
+        <div className={styles.carouselViewport}>
+          <div className={styles.carouselTrack} ref={trackRef}>
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className={styles.designCard}
+                data-card
+                onClick={() => onImageClick(item)}
+              >
+                <img
+                  className={styles.designCardImage}
+                  src={item.src}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                />
+              </div>
+            ))}
+          </div>
         </div>
+
+        <button
+          className={`${styles.carouselNav} ${styles.carouselNext}`}
+          onClick={rotateNext}
+          aria-label="Следующие работы"
+        >
+          ›
+        </button>
       </div>
 
       {block.id === 'design' && (
@@ -297,17 +356,35 @@ export default function Works() {
             interval={3000}
           />
 
-          {/* 02, 03, 04 — остальные блоки (отображаем только если есть контент) */}
+          {/* 02, 03, 04 — остальные блоки */}
           {BLOCKS.slice(1)
             .filter(block => block.items.length > 0)
-            .map((block, idx) => (
-              <WorksBlock 
-                key={block.id} 
-                block={block} 
-                onImageClick={openLightbox} 
-                interval={3000 + (idx * 500)}
-              />
-            ))}
+            .map((block, idx) => {
+              if (block.id === 'photo') {
+                return (
+                  <div key={block.id} id={`works-${block.id}`} className={styles.block}>
+                    <div className={styles.divider} />
+                    <div className={styles.blockHeader}>
+                      <span className={styles.blockNumber}>{block.num}</span>
+                      <h3 className={styles.blockTitle}>{block.title}</h3>
+                    </div>
+                    <BeforeAfter
+                      beforeSrc="https://storage.yandexcloud.net/landing-main/before-after/before%201.webp"
+                      afterSrc="https://storage.yandexcloud.net/landing-main/before-after/after%201.webp"
+                    />
+                  </div>
+                )
+              }
+              
+              return (
+                <WorksBlock 
+                  key={block.id} 
+                  block={block} 
+                  onImageClick={openLightbox} 
+                  interval={3000 + (idx * 500)}
+                />
+              )
+            })}
         </div>
       </div>
 

@@ -1,0 +1,119 @@
+.banner {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  z-index: 9998;
+  width: min(680px, calc(100vw - 32px));
+  background: rgba(28, 28, 30, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.hiding {
+  animation: slideDown 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.text {
+  flex: 1;
+  margin: 0;
+  font-family: 'Gilroy', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.55;
+}
+
+.accent {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+}
+
+.link {
+  color: #22c55e;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.link:hover {
+  opacity: 0.75;
+}
+
+.btn {
+  flex-shrink: 0;
+  font-family: 'Gilroy', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f0f0f;
+  background: #22c55e;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: #16a34a;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(24px);
+  }
+}
+
+@media (max-width: 520px) {
+  .banner {
+    flex-wrap: wrap;
+    bottom: 16px;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .icon {
+    display: none;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+    padding: 11px 20px;
+  }
+}

@@ -15,12 +15,12 @@ export default function InfiniteGallery({ onClose, items = [] }) {
   const closeBtnRef = useRef(null)
 
   useEffect(() => {
-    // Fallback if no items or less than 16
-    const validItems = items.length >= 16 ? items.slice(0, 16) : Array(16).fill({ src: '', title: 'Placeholder', badge: 'Draft' })
+    // Fallback if no items or less than 24
+    const validItems = items.length >= 24 ? items.slice(0, 24) : Array(24).fill({ src: '', title: 'Placeholder', badge: 'Draft' })
 
     // ─── CONFIG ───────────────────────────────────────────────────────────────────
     const TILE_W = 240, TILE_H = 320, GAP = 32
-    const COLS = 4, ROWS = 4
+    const COLS = 6, ROWS = 4
     const isMobile = window.innerWidth <= 768
     const REPEAT = isMobile ? 1 : 2
     const TOTAL_COLS = COLS * (REPEAT * 2 + 1)
@@ -29,7 +29,7 @@ export default function InfiniteGallery({ onClose, items = [] }) {
     const CELL_H = TILE_H + GAP
     const GRID_W = COLS * CELL_W
     const GRID_H = ROWS * CELL_H
-    const UNIQUE = 16
+    const UNIQUE = 24
     
     // Position the main central grid at the origin
     const centerX = window.innerWidth / 2 - (TOTAL_COLS * CELL_W) / 2
