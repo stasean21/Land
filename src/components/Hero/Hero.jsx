@@ -21,9 +21,21 @@ export default function Hero() {
   useEffect(() => {
     const v = videoRef.current
     if (!v) return
-    // React does not set the muted DOM attribute from the JSX prop — fix it manually
     v.muted = true
-    v.play().catch(() => {})
+
+    const attempt = () => v.play().catch(() => {})
+
+    if (v.readyState >= 3) {
+      attempt()
+    } else {
+      v.addEventListener('canplay', attempt, { once: true })
+      v.addEventListener('loadedmetadata', attempt, { once: true })
+    }
+
+    return () => {
+      v.removeEventListener('canplay', attempt)
+      v.removeEventListener('loadedmetadata', attempt)
+    }
   }, [])
 
   useEffect(() => {
@@ -74,6 +86,7 @@ export default function Hero() {
           muted
           loop
           playsInline
+          webkit-playsinline=""
           preload="auto"
           poster={HERO_VIDEO_POSTER}
           aria-hidden="true"
