@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef } from 'react'
 import styles from './Hero.module.css'
 
 const PHRASES = [
@@ -18,9 +18,11 @@ export default function Hero() {
   const typewriterRef = useRef(null)
   const videoRef = useRef(null)
 
-  const tryPlay = useCallback(() => {
+  useEffect(() => {
     const v = videoRef.current
     if (!v) return
+    // React does not set the muted DOM attribute from the JSX prop — fix it manually
+    v.muted = true
     v.play().catch(() => {})
   }, [])
 
@@ -75,7 +77,6 @@ export default function Hero() {
           preload="auto"
           poster={HERO_VIDEO_POSTER}
           aria-hidden="true"
-          onCanPlay={tryPlay}
         >
           <source src={HERO_VIDEO_MP4} type="video/mp4" />
           <source src={HERO_VIDEO_WEBM} type="video/webm" />
