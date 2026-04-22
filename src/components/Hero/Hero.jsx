@@ -123,10 +123,16 @@ export default function Hero() {
 
           {/* кнопки */}
           <div className={styles.buttons}>
-            <button className={`${styles.btn} ${styles.btnPrimary}`}>
+            <button
+              className={`${styles.btn} ${styles.btnPrimary}`}
+              onClick={() => document.getElementById('works')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Смотреть работы
             </button>
-            <button className={`${styles.btn} ${styles.btnOutline}`}>
+            <button
+              className={`${styles.btn} ${styles.btnOutline}`}
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Обсудить задачу
             </button>
           </div>
