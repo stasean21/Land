@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import styles from './Hero.module.css'
 
 const PHRASES = [
@@ -16,6 +16,13 @@ const HERO_VIDEO_POSTER = 'https://storage.yandexcloud.net/landing-main/video/ma
 
 export default function Hero() {
   const typewriterRef = useRef(null)
+  const videoRef = useRef(null)
+
+  const tryPlay = useCallback(() => {
+    const v = videoRef.current
+    if (!v) return
+    v.play().catch(() => {})
+  }, [])
 
   useEffect(() => {
     const el = typewriterRef.current
@@ -59,17 +66,19 @@ export default function Hero() {
 
         {/* фоновое видео */}
         <video
+          ref={videoRef}
           className={styles.video}
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           poster={HERO_VIDEO_POSTER}
           aria-hidden="true"
+          onCanPlay={tryPlay}
         >
-          <source src={HERO_VIDEO_WEBM} type="video/webm" />
           <source src={HERO_VIDEO_MP4} type="video/mp4" />
+          <source src={HERO_VIDEO_WEBM} type="video/webm" />
         </video>
 
         {/* оверлей */}
