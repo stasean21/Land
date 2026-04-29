@@ -47,7 +47,13 @@ const BLOCKS = [
     id: 'photo',
     num: '02',
     title: 'AI Предметная съёмка + Upscale',
-    items: [{ id: 'placeholder' }], // Dummy item to enable the block
+    items: [
+      {
+        id: 'ba1',
+        beforeSrc: 'https://storage.yandexcloud.net/landing-main/before-after/before%201.webp',
+        afterSrc: 'https://storage.yandexcloud.net/landing-main/before-after/after%201.webp',
+      },
+    ],
   },
   {
     id: 'ai-photo',
@@ -332,6 +338,7 @@ function WorksBlock({ block, onImageClick, onOpenGallery, interval = 5000 }) {
 export default function Works() {
   const [lightboxIdx, setLightboxIdx] = useState(null)
   const [showGallery, setShowGallery] = useState(false)
+  const [photoIdx, setPhotoIdx] = useState(0)
   const sectionRef = useRef(null)
 
   // Flatten all items for lightbox navigation
@@ -384,17 +391,32 @@ export default function Works() {
             .filter(block => block.items.length > 0)
             .map((block, idx) => {
               if (block.id === 'photo') {
+                const photoItems = block.items
                 return (
                   <div key={block.id} id={`works-${block.id}`} className={styles.block}>
                     <div className={styles.divider} />
                     <div className={styles.blockHeader}>
                       <span className={styles.blockNumber}>{block.num}</span>
-                      <h3 className={styles.blockTitle}>{block.title}</h3>
+                      <p className={styles.blockDescription}>{block.title}</p>
                     </div>
-                    <BeforeAfter
-                      beforeSrc="https://storage.yandexcloud.net/landing-main/before-after/before%201.webp"
-                      afterSrc="https://storage.yandexcloud.net/landing-main/before-after/after%201.webp"
-                    />
+                    <div className={styles.carouselContainer}>
+                      <button
+                        className={`${styles.carouselNav} ${styles.carouselPrev}`}
+                        onClick={() => setPhotoIdx(i => (i <= 0 ? photoItems.length - 1 : i - 1))}
+                        aria-label="Предыдущая работа"
+                      >‹</button>
+                      <div className={styles.carouselViewport}>
+                        <BeforeAfter
+                          beforeSrc={photoItems[photoIdx].beforeSrc}
+                          afterSrc={photoItems[photoIdx].afterSrc}
+                        />
+                      </div>
+                      <button
+                        className={`${styles.carouselNav} ${styles.carouselNext}`}
+                        onClick={() => setPhotoIdx(i => (i >= photoItems.length - 1 ? 0 : i + 1))}
+                        aria-label="Следующая работа"
+                      >›</button>
+                    </div>
                   </div>
                 )
               }
