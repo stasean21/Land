@@ -123,6 +123,142 @@
   overflow-wrap: anywhere;
 }
 
+.footerLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 36px;
+}
+
+.copy {
+  font-family: 'Gilroy', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.dot {
+  display: none;
+}
+
+.policyBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Gilroy', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.3);
+  transition: color 0.2s;
+}
+
+.policyBtn:hover {
+  color: #22c55e;
+}
+
+/* ── Modal ── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease both;
+}
+
+.modal {
+  position: relative;
+  background: rgba(28, 28, 30, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 32px 28px 28px;
+  width: min(680px, 100%);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  animation: scaleIn 0.25s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+.modalClose {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.modalClose:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.modalContent {
+  overflow-y: auto;
+  flex: 1;
+  font-family: 'Gilroy', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.7;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modalContent::-webkit-scrollbar {
+  display: none;
+}
+
+.modalContent h4,
+.modalContent h5 {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  margin: 18px 0 6px;
+}
+
+.modalContent h4:first-child,
+.modalContent h5:first-child {
+  margin-top: 0;
+}
+
+.modalContent p {
+  margin: 0 0 10px;
+}
+
+.modalContent strong {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 1024px) {
   .island {
     padding: 40px 32px 48px;

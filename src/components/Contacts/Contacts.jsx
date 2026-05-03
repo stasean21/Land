@@ -1,5 +1,8 @@
+import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { FaTelegramPlane, FaPinterestP, FaVk } from 'react-icons/fa'
 import styles from './Contacts.module.css'
+import PrivacyPolicyContent from './PrivacyPolicyContent'
 
 const CONTACTS = [
   {
@@ -40,24 +43,53 @@ function ContactCard({ id, title, value, href, icon }) {
 }
 
 export default function Contacts() {
-  return (
-    <section id="contact" className={styles.section}>
-      <div className={styles.container}>
-        <div className={styles.island}>
-          <div className={styles.head}>
-            <h2 className={styles.title}>Обсудим ваш проект и запустим работу</h2>
-            <p className={styles.lead}>
-              Напишите в удобный канал. Отвечаю быстро и предлагаю понятный план с сроками.
-            </p>
-          </div>
+  const [policyOpen, setPolicyOpen] = useState(false)
 
-          <div className={styles.cards}>
-            {CONTACTS.map((item) => (
-              <ContactCard key={item.id} {...item} />
-            ))}
+  return (
+    <>
+      <section id="contact" className={styles.section}>
+        <div className={styles.container}>
+          <div className={styles.island}>
+            <div className={styles.head}>
+              <h2 className={styles.title}>Обсудим ваш проект и запустим работу</h2>
+              <p className={styles.lead}>
+                Напишите в удобный канал. Отвечаю быстро и предлагаю понятный план с сроками.
+              </p>
+            </div>
+
+            <div className={styles.cards}>
+              {CONTACTS.map((item) => (
+                <ContactCard key={item.id} {...item} />
+              ))}
+            </div>
+
+            <div className={styles.footerLine}>
+              <span className={styles.copy}>© 2026 Мунтяну Станислав</span>
+              <button className={styles.policyBtn} onClick={() => setPolicyOpen(true)}>
+                Политика конфиденциальности
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {policyOpen && createPortal(
+        <div className={styles.overlay} onClick={() => setPolicyOpen(false)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <button
+              className={styles.modalClose}
+              onClick={() => setPolicyOpen(false)}
+              aria-label="Закрыть"
+            >
+              ✕
+            </button>
+            <div className={styles.modalContent}>
+              <PrivacyPolicyContent />
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+    </>
   )
 }

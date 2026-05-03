@@ -82,19 +82,19 @@ function Key({ label, color, icon, gsapIndex, registerKey }) {
   }, [gsapIndex, registerKey])
 
   const handleEnter = () => {
-    gsap.to(outerRef.current, { y: -4, duration: 0.18, ease: 'power2.out' })
+    gsap.to(outerRef.current, { scale: 0.92, duration: 0.18, ease: 'power2.out' })
     gsap.to(faceRef.current,  { filter: buildGlowFilter(glowColors, 18, 'CC'), duration: 0.18 })
   }
   const handleLeave = () => {
-    gsap.to(outerRef.current, { y: 0, duration: 0.18, ease: 'power2.out' })
+    gsap.to(outerRef.current, { scale: 1, duration: 0.22, ease: 'power2.out' })
     gsap.to(faceRef.current,  { filter: 'drop-shadow(0 0 0px transparent)', duration: 0.18 })
   }
   const handlePress = () => {
-    gsap.to(outerRef.current, { y: 4, duration: 0.07, ease: 'power3.in' })
+    gsap.to(outerRef.current, { scale: 0.82, duration: 0.07, ease: 'power3.in' })
     gsap.to(faceRef.current,  { filter: buildGlowFilter(glowColors, 10, '99'), duration: 0.07 })
   }
   const handleRelease = () => {
-    gsap.to(outerRef.current, { y: -4, duration: 0.15, ease: 'back.out(2)' })
+    gsap.to(outerRef.current, { scale: 0.92, duration: 0.15, ease: 'back.out(2)' })
     gsap.to(faceRef.current,  { filter: buildGlowFilter(glowColors, 18, 'CC'), duration: 0.15 })
   }
 
@@ -140,26 +140,25 @@ function KeyboardCard() {
       const face = keyFaceMap.current[idx]?.current
       if (!face) return
       gsap.to(face, {
-        y: 5, borderBottomWidth: '1px',
-        filter: buildGlowFilter(glowColors, 10, '99'),
+        scale: 0.82,
+        filter: buildGlowFilter(glowColors, 18, 'CC'),
         duration: 0.07, ease: 'power3.in',
         onComplete: () => {
           gsap.to(face, {
-            y: 0, borderBottomWidth: '3px',
-            filter: buildGlowFilter(glowColors, 18, 'CC'),
+            scale: 1,
             duration: 0.18, ease: 'back.out(2)',
             onComplete: () => {
               gsap.to(face, {
                 filter: 'drop-shadow(0 0 0px transparent)',
-                duration: 0.25,
-                delay: 0.12,
+                duration: 0.3,
+                delay: 0.1,
                 ease: 'power2.out',
               })
             }
           })
         }
       })
-    }, 1800)
+    }, 1000)
   }, [])
 
   const startIdle = useCallback(() => {

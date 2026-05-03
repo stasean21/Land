@@ -12,7 +12,7 @@
   border-radius: 20px;
   padding: 16px 20px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
   animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -26,10 +26,18 @@
   font-size: 24px;
   flex-shrink: 0;
   line-height: 1;
+  padding-top: 2px;
+}
+
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
 }
 
 .text {
-  flex: 1;
   margin: 0;
   font-family: 'Gilroy', sans-serif;
   font-size: 13px;
@@ -43,14 +51,72 @@
   font-weight: 600;
 }
 
-.link {
+.policyBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Gilroy', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
   color: #22c55e;
-  text-decoration: none;
+  line-height: inherit;
   transition: opacity 0.2s;
 }
 
-.link:hover {
+.policyBtn:hover {
   opacity: 0.75;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.checkLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.checkbox:checked {
+  background: #22c55e;
+  border-color: #22c55e;
+}
+
+.checkbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  width: 5px;
+  height: 9px;
+  border: 2px solid #0f0f0f;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.checkText {
+  font-family: 'Gilroy', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .btn {
@@ -64,17 +130,110 @@
   border-radius: 10px;
   padding: 9px 20px;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition: background 0.2s ease, transform 0.15s ease, opacity 0.2s;
   white-space: nowrap;
 }
 
-.btn:hover {
+.btn:hover:not(:disabled) {
   background: #16a34a;
   transform: translateY(-1px);
 }
 
-.btn:active {
+.btn:active:not(:disabled) {
   transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ── Modal ── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease both;
+}
+
+.modal {
+  position: relative;
+  background: rgba(28, 28, 30, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 32px 28px 28px;
+  width: min(680px, 100%);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  animation: scaleIn 0.25s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+.modalClose {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.modalClose:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.modalContent {
+  overflow-y: auto;
+  flex: 1;
+  font-family: 'Gilroy', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.7;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modalContent::-webkit-scrollbar {
+  display: none;
+}
+
+.modalContent h4,
+.modalContent h5 {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  margin: 18px 0 6px;
+}
+
+.modalContent h4:first-child,
+.modalContent h5:first-child {
+  margin-top: 0;
+}
+
+.modalContent p {
+  margin: 0 0 10px;
+}
+
+.modalContent strong {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 @keyframes slideUp {
@@ -99,9 +258,24 @@
   }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 520px) {
   .banner {
-    flex-wrap: wrap;
     bottom: 16px;
     padding: 14px 16px;
     gap: 10px;
@@ -111,9 +285,22 @@
     display: none;
   }
 
+  .actions {
+    flex-wrap: wrap;
+  }
+
   .btn {
     width: 100%;
     text-align: center;
     padding: 11px 20px;
+  }
+
+  .overlay {
+    padding: 16px;
+  }
+
+  .modal {
+    padding: 24px 16px 20px;
+    max-height: 85vh;
   }
 }
