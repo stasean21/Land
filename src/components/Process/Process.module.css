@@ -9,7 +9,7 @@
 
 .container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1800px;
   margin: 0 auto;
 }
 
@@ -31,12 +31,12 @@
 /* ===== HEADER ===== */
 .header {
   margin-bottom: 48px;
-  max-width: 100%;
+  max-width: 1800px;
 }
 
 .label {
   display: block;
-  font-size: clamp(24px, 2.8vw, 40px);
+  font-size: clamp(24px, 2.8vw, 64px);
   font-weight: 700;
   color: #FFFFFF;
   letter-spacing: -0.5px;
@@ -46,7 +46,7 @@
 }
 
 .title {
-  font-size: clamp(20px, 2vw, 28px);
+  font-size: clamp(20px, 2vw, 40px);
   font-weight: 500;
   color: #8A8A8E;
   margin: 0;
@@ -57,7 +57,7 @@
 /* ===== TIMELINE ===== */
 .timeline {
   position: relative;
-  max-width: 100%;
+  max-width: 1800px;
   margin-bottom: 40px;
 }
 
@@ -116,14 +116,14 @@
 }
 
 .stepNum {
-  font-size: 16px;
+  font-size: clamp(13px, 1vw, 18px);
   font-weight: 600;
   color: rgba(34,197,94,0.5);
   letter-spacing: 0.12em;
 }
 
 .stepTitle {
-  font-size: 28px;
+  font-size: clamp(22px, 1.8vw, 36px);
   font-weight: 600;
   color: #fff;
   margin: 0 0 12px;
@@ -131,7 +131,7 @@
 }
 
 .stepText {
-  font-size: 18px;
+  font-size: clamp(15px, 1.1vw, 22px);
   color: #555558;
   line-height: 1.75;
   margin: 0;
@@ -144,14 +144,14 @@
 
 /* ===== NOTE BLOCK ===== */
 .note {
-  max-width: 100%;
+  max-width: 1800px;
   margin-top: 40px;
   padding: 24px 30px;
   background: rgba(34,197,94,0.06);
   border: 1px solid rgba(34,197,94,0.25);
   border-left: 3px solid #22c55e;
   border-radius: 12px;
-  font-size: 18px;
+  font-size: clamp(15px, 1.1vw, 22px);
   color: rgba(255,255,255,0.75);
   line-height: 1.7;
 }
@@ -163,9 +163,9 @@
 
 /* ===== FOOTER LINE ===== */
 .footer {
-  max-width: 100%;
+  max-width: 1800px;
   margin: 24px 0 0;
-  font-size: 16px;
+  font-size: clamp(13px, 1vw, 18px);
   color: #6A6A6E;
   border-top: 1px solid #1e1e22;
   padding-top: 20px;

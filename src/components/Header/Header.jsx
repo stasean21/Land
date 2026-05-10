@@ -1,11 +1,58 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './Header.module.css';
 
-export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+const NAV_LINKS = [
+  { href: '#top',      label: 'Главная' },
+  { href: '#services', label: 'Услуги' },
+  { href: '#about',    label: 'Обо мне' },
+  { href: '#works',    label: 'Работы' },
+  { href: '#resume',   label: 'Этапы работы' },
+  { href: '#contact',  label: 'Контакты' },
+]
 
-  // Закрываем меню при клике на ссылку
-  const handleLink = () => setMenuOpen(false);
+const SECTION_IDS = ['services', 'about', 'works', 'resume', 'contact']
+
+export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('top')
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
+          }
+        })
+      },
+      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+    )
+
+    // Наблюдаем за всеми секциями
+    SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    // Главная — когда в самом верху
+    const onScroll = () => {
+      if (window.scrollY < 100) setActiveSection('top')
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+
+  const handleLink = () => setMenuOpen(false)
+
+  const linkClass = (id) =>
+    activeSection === id ? styles.linkActive : styles.link
+
+  const mobileLinkClass = (id) =>
+    activeSection === id ? styles.mobileLinkActive : styles.mobileLink
 
   return (
     <header className={styles.wrapper}>
@@ -13,9 +60,9 @@ export default function Header() {
 
         {/* Левая группа */}
         <div className={`${styles.links} ${styles.linksLeft}`}>
-          <a href="#top"       className={styles.linkActive}>Главная</a>
-          <a href="#services"  className={styles.link}>Услуги</a>
-          <a href="#about"     className={styles.link}>Обо мне</a>
+          <a href="#top"      className={linkClass('top')}>Главная</a>
+          <a href="#services" className={linkClass('services')}>Услуги</a>
+          <a href="#about"    className={linkClass('about')}>Обо мне</a>
         </div>
 
         {/* Лого по центру */}
@@ -26,9 +73,9 @@ export default function Header() {
 
         {/* Правая группа */}
         <div className={`${styles.links} ${styles.linksRight}`}>
-          <a href="#works" className={styles.link}>Работы</a>
-          <a href="#resume" className={styles.link}>Этапы работы</a>
-          <a href="#contact" className={styles.link}>Контакты</a>
+          <a href="#works"   className={linkClass('works')}>Работы</a>
+          <a href="#resume"  className={linkClass('resume')}>Этапы работы</a>
+          <a href="#contact" className={linkClass('contact')}>Контакты</a>
         </div>
 
         {/* Бургер */}
@@ -44,13 +91,13 @@ export default function Header() {
 
       {/* Мобильное меню */}
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''}`}>
-        <a href="#top"       onClick={handleLink} className={styles.mobileLink}>Главная</a>
-        <a href="#services"  onClick={handleLink} className={styles.mobileLink}>Услуги</a>
-        <a href="#about"     onClick={handleLink} className={styles.mobileLink}>Обо мне</a>
-        <a href="#works"     onClick={handleLink} className={styles.mobileLink}>Работы</a>
-        <a href="#resume"    onClick={handleLink} className={styles.mobileLink}>Этапы работы</a>
-        <a href="#contact"   onClick={handleLink} className={styles.mobileLink}>Контакты</a>
+        <a href="#top"      onClick={handleLink} className={mobileLinkClass('top')}>Главная</a>
+        <a href="#services" onClick={handleLink} className={mobileLinkClass('services')}>Услуги</a>
+        <a href="#about"    onClick={handleLink} className={mobileLinkClass('about')}>Обо мне</a>
+        <a href="#works"    onClick={handleLink} className={mobileLinkClass('works')}>Работы</a>
+        <a href="#resume"   onClick={handleLink} className={mobileLinkClass('resume')}>Этапы работы</a>
+        <a href="#contact"  onClick={handleLink} className={mobileLinkClass('contact')}>Контакты</a>
       </div>
     </header>
-  );
+  )
 }

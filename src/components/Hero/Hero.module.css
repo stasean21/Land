@@ -15,7 +15,7 @@
 .hero {
   position: relative;
   width: 100%;
-  max-width: 1280px;
+  max-width: 1800px;
   margin: 0 auto;
   aspect-ratio: 16 / 9;
   border-radius: 20px;
@@ -57,14 +57,14 @@
   -webkit-backdrop-filter: blur(20px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  padding: 3.6% 4.6%;
+  padding: 1.2% 4.6% 3.6%;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3),
               inset 0 1px 0 rgba(255, 255, 255, 0.1);
   color: #ffffff;
   display: grid;
-  grid-template-rows: auto auto auto auto 1fr auto;
-  align-content: stretch;
-  gap: 12px;
+  grid-template-rows: auto auto auto auto auto auto;
+  align-content: space-between;
+  gap: 0;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -74,24 +74,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: clamp(9px, 1vw, 11px);
+  font-size: clamp(10px, 1.1vw, 14px);
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.56);
   margin-bottom: 0;
+  padding-top: clamp(4px, 0.4vw, 8px);
+}
+
+.nameGroup {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.4vw, 8px);
 }
 
 /* Имя */
 .name {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(36px, 4.2vw, 72px);
+  font-size: clamp(46px, 6.2vw, 110px);
   font-weight: 700;
   line-height: 0.95;
   text-transform: uppercase;
   letter-spacing: 0px;
   margin: 0;
-  margin-bottom: 0;
   word-break: break-word;
   overflow-wrap: anywhere;
   hyphens: auto;
@@ -99,7 +105,7 @@
 
 /* Typewriter */
 .typewriterWrap {
-  font-size: clamp(16px, 1.4vw, 24px);
+  font-size: clamp(18px, 1.8vw, 32px);
   font-weight: 400;
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 0;
@@ -121,12 +127,12 @@
 
 /* Слоган */
 .tagline {
-  font-size: clamp(22px, 2.4vw, 40px);
+  font-size: clamp(30px, 3.6vw, 64px);
   font-weight: 600;
   line-height: 1.1;
   margin: 0;
   margin-bottom: 0;
-  max-width: 100%;
+  max-width: 1800px;
   overflow-wrap: anywhere;
   hyphens: auto;
 }
@@ -144,7 +150,7 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  font-size: clamp(14px, 1.2vw, 22px);
+  font-size: clamp(15px, 1.5vw, 28px);
   line-height: 1.35;
   color: rgba(255, 255, 255, 0.82);
 }
@@ -188,9 +194,9 @@
 }
 .btn {
   font-family: inherit;
-  font-size: clamp(14px, 1.1vw, 22px);
+  font-size: clamp(15px, 1.4vw, 26px);
   font-weight: 600;
-  padding: clamp(10px, 0.8vw, 16px) clamp(18px, 1.5vw, 30px);
+  padding: clamp(10px, 1vw, 20px) clamp(20px, 1.8vw, 36px);
   border-radius: 100px;
   cursor: pointer;
   transition: all 0.3s ease;

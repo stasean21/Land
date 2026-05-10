@@ -8,7 +8,7 @@
 }
 .container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1800px;
   margin: 0 auto;
 }
 .island {
@@ -56,7 +56,7 @@
 
 /* Block description (used instead of number+title in Design block) */
 .blockDescription {
-  font-size: clamp(24px, 2.8vw, 40px);
+  font-size: clamp(24px, 2.8vw, 64px);
   font-weight: 700;
   color: #FFFFFF;
   margin: 0;
@@ -272,7 +272,7 @@
 
 .lightboxImage {
   display: block;
-  max-width: 100%;
+  max-width: 1800px;
   max-height: 75vh;
   object-fit: contain;
   border-radius: 12px;

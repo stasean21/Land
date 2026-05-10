@@ -107,13 +107,13 @@ export default function Hero() {
             <span>CONTENT AI · ВИЗУАЛ · ГРАФИКА</span>
           </div>
 
-          {/* имя */}
-          <h1 className={styles.name}>Станислав Мунтяну</h1>
-
-          {/* typewriter */}
-          <div className={styles.typewriterWrap}>
-            <span ref={typewriterRef} />
-            <span className={styles.cursor} />
+          {/* имя + typewriter */}
+          <div className={styles.nameGroup}>
+            <h1 className={styles.name}>Станислав Мунтяну</h1>
+            <div className={styles.typewriterWrap}>
+              <span ref={typewriterRef} />
+              <span className={styles.cursor} />
+            </div>
           </div>
 
           {/* слоган */}

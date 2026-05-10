@@ -8,14 +8,14 @@
 }
 .container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1800px;
   margin: 0 auto;
 }
 .island {
   background: #1C1C1E;
   box-shadow: 0 8px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.12);
   border-radius: 28px;
-  padding: 40px 56px 56px;
+  padding: 56px 56px 72px;
   box-sizing: border-box;
 }
 
@@ -24,7 +24,7 @@
   margin-bottom: 48px;
 }
 .subtitle {
-  font-size: clamp(24px, 2.8vw, 40px);
+  font-size: clamp(24px, 2.8vw, 64px);
   font-weight: 700;
   color: #FFFFFF;
   margin: 0;
@@ -35,14 +35,14 @@
 /* ===== BENTO GRID ===== */
 .bento {
   display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 20px;
-  align-items: start;
+  grid-template-columns: min(420px, 30%) 1fr;
+  gap: 28px;
+  align-items: stretch;
 }
 .rightCol {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
 }
 
 /* ===== BASE CARD ===== */
@@ -63,7 +63,7 @@
 .photoWrap {
   position: relative;
   width: 100%;
-  height: 240px;
+  height: 400px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -81,14 +81,14 @@
   background: linear-gradient(to bottom, transparent 40%, #1C1C1E 100%);
 }
 .storyText {
-  padding: 24px;
+  padding: 32px 28px 36px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   flex: 1;
 }
 .storyName {
-  font-size: 21px;
+  font-size: clamp(18px, 1.4vw, 26px);
   font-weight: 700;
   color: #FFFFFF;
   margin: 0;
@@ -110,7 +110,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  padding: 34px 24px;
+  padding: 48px 32px;
   gap: 12px;
 }
 .counter {
@@ -121,7 +121,7 @@
   flex: 1;
 }
 .counterNum {
-  font-size: 40px;
+  font-size: clamp(32px, 2.5vw, 52px);
   font-weight: 700;
   color: #22c55e;
   letter-spacing: -1px;
@@ -143,13 +143,17 @@
 
 /* ===== КАРТОЧКА: КЛАВИШИ ===== */
 .cardKeys {
-  padding: 30px 24px 34px;
+  padding: 40px 32px 48px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .cardKeysHeader {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 .cardSubBig {
-  font-size: 24px;
+  font-size: clamp(20px, 1.6vw, 30px);
   font-weight: 700;
   color: #FFFFFF;
   margin: 0;
@@ -159,6 +163,7 @@
 /* Клавиатура */
 .keyboard {
   width: 100%;
+  max-width: 100%;
 }
 .keyRow {
   display: grid;
@@ -187,7 +192,7 @@
 
 /* Обёртка иконки */
 .keyFace {
-  width: min(114px, 100%);
+  width: min(160px, 100%);
   aspect-ratio: 1 / 1;
   background: transparent;
   border: none;
@@ -204,8 +209,8 @@
 .keyIcon {
   width: 100%;
   height: 100%;
-  max-width: 114px;
-  max-height: 114px;
+  max-width: 160px;
+  max-height: 160px;
   object-fit: contain;
   display: block;
   pointer-events: none;
@@ -235,10 +240,10 @@
 
 /* ===== КАРТОЧКА: НАВЫКИ ===== */
 .cardSkills {
-  padding: 30px;
+  padding: 40px 32px;
 }
 .cardTitle {
-  font-size: 24px;
+  font-size: clamp(20px, 1.6vw, 30px);
   font-weight: 700;
   color: #FFFFFF;
   margin: 0 0 18px 0;

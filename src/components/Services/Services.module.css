@@ -7,7 +7,7 @@
 }
 .container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1800px;
   margin: 0 auto;
 }
 .island {
@@ -18,16 +18,13 @@
 }
 .header { margin-bottom: 56px; }
 .subtitle {
-  font-size: clamp(24px, 2.8vw, 40px);
+  font-size: clamp(24px, 2.8vw, 64px);
   font-weight: 700;
   color: #FFFFFF;
   margin: 0;
   line-height: 1.15;
   letter-spacing: -0.5px;
-  white-space: nowrap;
   max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* ===== GRID ===== */
@@ -78,7 +75,7 @@
   margin-bottom: 12px;
 }
 .cardTitle {
-  font-size: 18px;
+  font-size: clamp(16px, 1.2vw, 24px);
   font-weight: 600;
   color: #FFFFFF;
   margin: 0;
@@ -91,7 +88,7 @@
   margin-top: 2px;
 }
 .description {
-  font-size: 14px;
+  font-size: clamp(13px, 0.95vw, 17px);
   color: #8A8A8E;
   line-height: 1.6;
   margin: 0 0 20px 0;
