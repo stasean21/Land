@@ -8,6 +8,7 @@ import styles from './App.module.css'
 const Services = lazy(() => import('./components/Services/Services'))
 const About = lazy(() => import('./components/About/About'))
 const Works = lazy(() => import('./components/Works/Works'))
+const Process = lazy(() => import('./components/Process/Process'))
 const Contacts = lazy(() => import('./components/Contacts/Contacts'))
 
 export default function App() {
@@ -30,6 +31,11 @@ export default function App() {
       <div className={styles.deferSection}>
         <Suspense fallback={<div className={styles.sectionSkeleton} aria-hidden="true" />}>
           <Works />
+        </Suspense>
+      </div>
+      <div className={styles.deferSection}>
+        <Suspense fallback={<div className={styles.sectionSkeleton} aria-hidden="true" />}>
+          <Process />
         </Suspense>
       </div>
       <div className={styles.deferSection}>

@@ -3,11 +3,12 @@
    ================================================ */
 .heroWrapper {
   width: 100%;
-  background: #F1F2F3;
+  background: radial-gradient(circle, rgba(0,0,0,0.13) 1px, transparent 1px) #F1F2F3;
+  background-size: 22px 22px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: calc(24px + var(--header-safe-space)) 24px 24px;
+  padding: calc(24px + var(--header-safe-space)) 24px 48px;
   box-sizing: border-box;
 }
 
@@ -19,6 +20,7 @@
   aspect-ratio: 16 / 9;
   border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.12);
 }
 
 .video {
