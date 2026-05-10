@@ -6,108 +6,95 @@ import styles from './Process.module.css'
 gsap.registerPlugin(ScrollTrigger)
 
 const STEPS = [
-  {
-    num: '01',
-    title: 'Бриф',
-    text: 'Рассказываете о товаре, площадке и конкурентах. Я задаю нужные вопросы — занимает 10–15 минут.',
-  },
-  {
-    num: '02',
-    title: 'Анализ и концепция',
-    text: 'Изучаю нишу, смотрю что продаёт у конкурентов — строю структуру карточки под покупателя, а не под вкус.',
-  },
-  {
-    num: '03',
-    title: 'Дизайн',
-    text: 'Отрисовываю инфографику с акцентом на главное: почему ваш товар, почему сейчас, почему стоит своих денег.',
-  },
-  {
-    num: '04',
-    title: 'Правки',
-    text: 'Показываю результат. Вносим правки пока не скажете «это то, что нужно».',
-  },
-  {
-    num: '05',
-    title: 'Готовые файлы',
-    text: 'Отдаю всё в нужных форматах, готовых к загрузке на Wildberries, Ozon или любую другую площадку.',
-  },
-  {
-    num: '06',
-    title: 'Оплата',
-    text: 'Оплачиваете после того, как увидите результат и скажете «всё отлично». Удобный способ оплаты обсудим при общении.',
-  },
+  { num: '01', title: 'Бриф', text: 'Рассказываете о товаре, площадке и конкурентах. Я задаю нужные вопросы — занимает 10–15 минут.' },
+  { num: '02', title: 'Анализ и концепция', text: 'Изучаю нишу, смотрю что продаёт у конкурентов — строю структуру карточки под покупателя, а не под вкус.' },
+  { num: '03', title: 'Дизайн', text: 'Отрисовываю инфографику с акцентом на главное: почему ваш товар, почему сейчас, почему стоит своих денег.' },
+  { num: '04', title: 'Правки', text: 'Показываю результат. Вносим правки пока не скажете «это то, что нужно».' },
+  { num: '05', title: 'Готовые файлы', text: 'Отдаю всё в нужных форматах, готовых к загрузке на Wildberries, Ozon или любую другую площадку.' },
+  { num: '06', title: 'Оплата', text: 'Оплачиваете после того, как увидите результат и скажете «всё отлично». Удобный способ оплаты обсудим при общении.' },
 ]
 
-const isMobile = () => window.innerWidth <= 768
-
 export default function Process() {
-  const stepsRef = useRef([])
-  const dotsRef = useRef([])
-  const linesRef = useRef([])
-  const noteRef = useRef(null)
+  const sectionRef = useRef(null)
+  const stepsRef  = useRef([])
+  const dotsRef   = useRef([])
+  const linesRef  = useRef([])
+  const noteRef   = useRef(null)
   const footerRef = useRef(null)
 
   useEffect(() => {
-    const items = stepsRef.current.filter(Boolean)
-    if (!items.length) return
-
+    const isMobile = window.innerWidth <= 768
     const ctx = gsap.context(() => {
-      // Шаги появляются при скролле
-      if (isMobile()) {
-        items.forEach((item) => {
+
+      if (isMobile) {
+        // Мобильный: обычные scroll-triggered анимации
+        stepsRef.current.filter(Boolean).forEach((item) => {
           gsap.fromTo(item,
             { opacity: 0, x: -20 },
             { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out',
               scrollTrigger: { trigger: item, start: 'top 88%' } }
           )
         })
+        dotsRef.current.filter(Boolean).forEach((dot, i) => {
+          const line = linesRef.current[i]
+          gsap.fromTo(dot,
+            { scale: 0.3, backgroundColor: '#1C1C1E', borderColor: 'rgba(34,197,94,0.4)' },
+            {
+              scale: 1, backgroundColor: '#22c55e', borderColor: '#22c55e',
+              duration: 0.5, ease: 'back.out(2.5)',
+              scrollTrigger: { trigger: dot, start: 'top 90%' },
+              onComplete: () => {
+                if (line) gsap.fromTo(line, { scaleY: 0, opacity: 1 }, { scaleY: 1, opacity: 1, duration: 0.6, ease: 'power2.inOut' })
+              },
+            }
+          )
+        })
       } else {
-        gsap.fromTo(items,
-          { opacity: 0, x: -10 },
-          { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out', stagger: 0.1,
-            scrollTrigger: { trigger: items[0], start: 'top 85%' } }
+        // Десктоп: PIN + SCRUB
+        // Скрываем всё сразу
+        gsap.set(stepsRef.current.filter(Boolean), { opacity: 0, x: -16 })
+        gsap.set(dotsRef.current.filter(Boolean), { scale: 0.3, backgroundColor: '#1C1C1E', borderColor: 'rgba(34,197,94,0.4)' })
+        gsap.set(linesRef.current.filter(Boolean), { scaleY: 0, opacity: 1 })
+        gsap.set([noteRef.current, footerRef.current].filter(Boolean), { opacity: 0, y: 10 })
+
+        const stepDuration = 1.0
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            pin: true,
+            pinSpacing: true,
+            start: 'top 80px',     // учитываем высоту хедера
+            end: `+=${window.innerHeight * 6}`,
+            scrub: 1,
+          },
+        })
+
+        stepsRef.current.filter(Boolean).forEach((step, i) => {
+          const dot  = dotsRef.current[i]
+          const line = linesRef.current[i]
+          const pos  = i * stepDuration
+
+          tl.to(step, { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out' }, pos)
+          tl.to(dot,  { scale: 1, backgroundColor: '#22c55e', borderColor: '#22c55e', duration: 0.35, ease: 'back.out(2.5)' }, pos + 0.25)
+          if (line) tl.to(line, { scaleY: 1, duration: 0.45, ease: 'power2.inOut' }, pos + 0.5)
+        })
+
+        // Note и footer после последнего шага
+        tl.to(
+          [noteRef.current, footerRef.current].filter(Boolean),
+          { opacity: 1, y: 0, stagger: 0.25, duration: 0.5 },
+          STEPS.length * stepDuration
         )
       }
 
-      // Dot + линия: dot заливается → линия рисуется вниз
-      dotsRef.current.filter(Boolean).forEach((dot, i) => {
-        const line = linesRef.current[i]
-
-        gsap.fromTo(dot,
-          { scale: 0.3, backgroundColor: '#1C1C1E', borderColor: 'rgba(34,197,94,0.4)' },
-          {
-            scale: 1,
-            backgroundColor: '#22c55e',
-            borderColor: '#22c55e',
-            duration: 0.5,
-            ease: 'back.out(2.5)',
-            scrollTrigger: { trigger: dot, start: 'top 90%' },
-            onComplete: () => {
-              // После заливки dot — рисуем линию вниз
-              if (line) {
-                gsap.fromTo(line,
-                  { scaleY: 0, opacity: 1 },
-                  { scaleY: 1, opacity: 1, duration: 0.6, ease: 'power2.inOut' }
-                )
-              }
-            },
-          }
-        )
-      })
-
-      gsap.fromTo(
-        [noteRef.current, footerRef.current].filter(Boolean),
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', stagger: 0.1,
-          scrollTrigger: { trigger: noteRef.current, start: 'top 90%' } }
-      )
     })
 
     return () => ctx.revert()
   }, [])
 
   return (
-    <section id="resume" className={styles.section}>
+    <section id="resume" ref={sectionRef} className={styles.section}>
       <div className={styles.container}>
         <div className={styles.island}>
 
@@ -127,18 +114,12 @@ export default function Process() {
                 ref={el => { stepsRef.current[i] = el }}
               >
                 <div className={styles.stepHead}>
-                  <div
-                    className={styles.stepDot}
-                    ref={el => { dotsRef.current[i] = el }}
-                  />
+                  <div className={styles.stepDot} ref={el => { dotsRef.current[i] = el }} />
                   <span className={styles.stepNum}>{step.num}</span>
                 </div>
 
                 {i < STEPS.length - 1 && (
-                  <div
-                    className={styles.stepLine}
-                    ref={el => { linesRef.current[i] = el }}
-                  />
+                  <div className={styles.stepLine} ref={el => { linesRef.current[i] = el }} />
                 )}
 
                 <div className={styles.stepTitle}>{step.title}</div>

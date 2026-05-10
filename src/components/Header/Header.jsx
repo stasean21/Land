@@ -17,33 +17,30 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState('top')
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id)
-          }
-        })
-      },
-      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
-    )
+    // getBoundingClientRect() работает корректно с ScrollSmoother
+    // т.к. учитывает CSS transforms на родительских элементах
+    const updateActive = () => {
+      if (window.scrollY < 80) {
+        setActiveSection('top')
+        return
+      }
 
-    // Наблюдаем за всеми секциями
-    SECTION_IDS.forEach((id) => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    })
-
-    // Главная — когда в самом верху
-    const onScroll = () => {
-      if (window.scrollY < 100) setActiveSection('top')
+      let current = 'top'
+      SECTION_IDS.forEach((id) => {
+        const el = document.getElementById(id)
+        if (!el) return
+        const top = el.getBoundingClientRect().top
+        if (top <= window.innerHeight * 0.45) {
+          current = id
+        }
+      })
+      setActiveSection(current)
     }
-    window.addEventListener('scroll', onScroll, { passive: true })
 
-    return () => {
-      observer.disconnect()
-      window.removeEventListener('scroll', onScroll)
-    }
+    window.addEventListener('scroll', updateActive, { passive: true })
+    updateActive()
+
+    return () => window.removeEventListener('scroll', updateActive)
   }, [])
 
   const handleLink = () => setMenuOpen(false)

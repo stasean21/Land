@@ -3,6 +3,8 @@ import { gsap } from 'gsap'
 import './InfiniteGallery.css'
 
 export default function InfiniteGallery({ onClose, items = [] }) {
+  const initialItemsRef = useRef(items)
+  const onCloseRef = useRef(onClose)
   const wrapperRef = useRef(null)
   const canvasRef = useRef(null)
   const coordsRef = useRef(null)
@@ -15,8 +17,13 @@ export default function InfiniteGallery({ onClose, items = [] }) {
   const closeBtnRef = useRef(null)
 
   useEffect(() => {
+    onCloseRef.current = onClose
+  }, [onClose])
+
+  useEffect(() => {
     // Fallback if no items or less than 24
-    const validItems = items.length >= 24 ? items.slice(0, 24) : Array(24).fill({ src: '', title: 'Placeholder', badge: 'Draft' })
+    const initialItems = initialItemsRef.current
+    const validItems = initialItems.length >= 24 ? initialItems.slice(0, 24) : Array(24).fill({ src: '', title: 'Placeholder', badge: 'Draft' })
 
     // ─── CONFIG ───────────────────────────────────────────────────────────────────
     const TILE_W = 240, TILE_H = 320, GAP = 32
@@ -195,7 +202,7 @@ export default function InfiniteGallery({ onClose, items = [] }) {
       keys[e.key] = true
       if (e.key === 'Escape') {
         if (lightboxOpen) closeLightbox()
-        else if (!animatingLb) onClose() 
+        else if (!animatingLb) onCloseRef.current()
       }
       if (lightboxOpen && e.key === 'ArrowRight') navLightbox(1)
       if (lightboxOpen && e.key === 'ArrowLeft') navLightbox(-1)
@@ -315,7 +322,7 @@ export default function InfiniteGallery({ onClose, items = [] }) {
 
   return (
     <div className="infinite-gallery-modal">
-      <button className="ig-close-btn" ref={closeBtnRef} onClick={(e) => {
+      <button className="ig-close-btn" ref={closeBtnRef} onClick={() => {
         if (window._canCloseGallery && !window._canCloseGallery()) return;
         onClose();
       }} aria-label="Close Gallery">✕</button>

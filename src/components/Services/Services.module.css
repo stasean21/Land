@@ -156,40 +156,6 @@
   z-index: 2;
 }
 
-/* ============================================================
-   БАЗОВЫЕ СОСТОЯНИЯ
-============================================================ */
-.drawCard   { stroke-dashoffset: 0; }
-.drawInner  { stroke-dashoffset: 0; }
-.drawLine1  { stroke-dashoffset: 0; }
-.drawLine2  { stroke-dashoffset: 0; }
-.drawLine3  { stroke-dashoffset: 0; }
-.drawArrows { opacity: 1; }
-
-.noiseGrid { opacity: 0.15; }
-.assembleShape {
-  opacity: 1;
-  transform: scale(1);
-  transform-origin: 100px 70px;
-}
-.scatterDots { opacity: 0.3; }
-.dotA { opacity: 0.35; }
-.dotB { opacity: 0.45; }
-.dotC { opacity: 0.55; }
-.dotD { opacity: 0.65; }
-
-.lightBeam   { opacity: 1; }
-.shadow      { opacity: 1; }
-.lightSource { opacity: 1; }
-.cylinder    { transform-origin: 100px 82px; }
-
-.ring1, .ring2, .ring3 { stroke-dashoffset: 0; }
-.equalizer  { opacity: 1; transform: scaleY(1); transform-origin: bottom; }
-.corePulse  { opacity: 0.5; }
-.coreDot    { transform-origin: 100px 70px; opacity: 1; }
-.ringStatic { opacity: 0; }
-.axes3d     { opacity: 1; }
-
 /* ===== Infinite Reveal/Typing (No Movement) ===== */
 .designCard { animation: fadeLoop 6s ease-in-out infinite; }
 .designScreen { animation: glowLoop 4.5s ease-in-out infinite; }
